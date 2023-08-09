@@ -6,18 +6,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class ConnectionDB {
-    private static final String URL = "jdbc:mysql://localhost:3307/cinema";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+
+    private static final String URL_KEY = "db.url";
+    private static final String USERNAME_KEY = "db.username";
+    private static final String PASSWORD_KEY = "db.password";
 
     static {
         loadDriver();
     }
 
-    public static Connection open(){
+    public static Connection open() {
         try {
             System.out.println("Connection open() is working");
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            return DriverManager.getConnection(
+                    PropertiesUtil.get(URL_KEY),
+                    PropertiesUtil.get(USERNAME_KEY),
+                    PropertiesUtil.get(PASSWORD_KEY));
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при подключении к БД" + e.getMessage());
         }
@@ -33,21 +37,5 @@ public final class ConnectionDB {
         }
     }
 
-    private ConnectionDB() {
-
-//
-//        try (Connection connection = DriverManager.getConnection(url, username, password)) {
-//            System.out.println("connection good...");
-//
-//            PreparedStatement statement = connection.prepareStatement("" +
-//                    "INSERT INTO person (username, password, email) " +
-//                    "VALUES ('Alex2', '1234', 'alex@test.ru')");
-//            statement.execute();
-//        } catch (
-//                SQLException e) {
-//            System.out.println("Ошибка подключения к базе данных");
-//            e.printStackTrace();
-//        }
-    }
-
+    private ConnectionDB() {}
 }
