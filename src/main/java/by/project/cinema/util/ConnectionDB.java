@@ -17,7 +17,6 @@ public final class ConnectionDB {
 
     public static Connection open() {
         try {
-            System.out.println("Connection open() is working");
             return DriverManager.getConnection(
                     PropertiesUtil.get(URL_KEY),
                     PropertiesUtil.get(USERNAME_KEY),
@@ -30,7 +29,6 @@ public final class ConnectionDB {
     private static void loadDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("loadDriver() is working");
         } catch (
                 ClassNotFoundException e) {
             e.printStackTrace();

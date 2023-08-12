@@ -19,6 +19,26 @@ public class User {
         this.password = password;
         this.email = email;
     }
+
+    public User(int id) {
+        this.id = id;
+    }
+    public User(int id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        String str = String.format("\n%-4s %-15s %-15s %-15s %-10s", id, username,password,email, role);
+        return str;
+    }
 }
 
 
