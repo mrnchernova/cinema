@@ -62,7 +62,7 @@ public class Constants {
     public static final String MANAGER_MENU = """
             -- MANAGER MENU --
             1. create film
-            2. update film          
+            2. update film      
             3. delete film
             4. get film by id
             5. get all films

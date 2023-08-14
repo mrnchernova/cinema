@@ -29,14 +29,29 @@ public class MainController {
             }
             case "3" -> {
                 System.out.println("sign in");
-                UserController.userMenu();
+                System.out.print("Enter username: ");
+                String username = sc.nextLine();
+                System.out.print("Enter password: ");
+                String password = sc.nextLine();
+                User currentUser = userService.signIn(username, password);
+                if (currentUser == null) {
+                    System.out.println("you need registered first");
+                } else {
+                    System.out.println("welcome, " + username);
+                    switch (currentUser.getRole().toString()) {
+                        case "ADMIN" -> AdminController.adminMenu();
+                        case "MANAGER" -> ManagerController.managerMenu();
+                        case "USER" -> UserController.userMenu();
+                        default -> System.out.println("Undefined role");
+                    }
+                }
             }
             case "0" -> {
                 sc.close();
                 System.exit(0);
             }
             case "admin" -> {                       // secret command
-               AdminController.adminMenu();
+                AdminController.adminMenu();
             }
             default -> {
                 System.out.println("something goes wrong");
@@ -45,9 +60,6 @@ public class MainController {
             }
         }
     }
-
-
-
 
 
 }
