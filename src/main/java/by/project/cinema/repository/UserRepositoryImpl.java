@@ -28,24 +28,43 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean update(User user) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE person SET password = ? WHERE id = ?");
+            statement.setString(1, user.getPassword());
+            statement.setInt(2, user.getId());
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
-        // "UPDATE users SET password=? WHERE id = ?"
     }
 
-
-    /* TODO удалить данные из БД с проверкой*/
     @Override
     public boolean delete(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM person WHERE id = ?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println("user successfully deleted");//!!!!!!!!
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM person WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
             return true;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
-        System.out.println("user not deleted");
+        return false;
+    }
+
+    public boolean isExistUser(int id) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -74,10 +93,11 @@ public class UserRepositoryImpl implements UserRepository {
     public User getById(int userId) {
         User user = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM person WHERE id=?");
-            statement.setInt(1, userId);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?");
+            preparedStatement.setInt(1, userId);
 
-            ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
@@ -86,8 +106,32 @@ public class UserRepositoryImpl implements UserRepository {
                 Role role = Role.valueOf(resultSet.getString("role"));
                 user = new User(id, username, password, email, role);
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public User signIn(String enteredUsername, String enteredPassword) {
+        User user = null;
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=? AND password=?");
+            preparedStatement.setString(1, enteredUsername);
+            preparedStatement.setString(2, enteredPassword);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                String email = resultSet.getString("email");
+                Role role = Role.valueOf(resultSet.getString("role"));
+                user = new User(id, username, password, email, role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return user;
     }

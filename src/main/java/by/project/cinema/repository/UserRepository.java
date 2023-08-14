@@ -15,5 +15,9 @@ public interface UserRepository {
 
     User getById(int id);
 
+    boolean isExistUser(int id);
+
+    User signIn(String username, String password);
+
 
 }

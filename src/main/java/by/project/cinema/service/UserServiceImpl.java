@@ -37,5 +37,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.getById(id);
     }
 
+    @Override
+    public boolean isExistUser(int id) {
+        return userRepository.isExistUser(id);
+    }
 
+    @Override
+    public User signIn(String username, String password) {
+        return userRepository.signIn(username, password);
+    }
 }

@@ -14,4 +14,8 @@ public interface UserService {
     List<User> getUsers();
 
     User getById(int id);
+
+    boolean isExistUser(int id);
+
+    User signIn(String username, String password);
 }
