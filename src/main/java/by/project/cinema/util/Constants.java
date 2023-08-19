@@ -1,9 +1,10 @@
 package by.project.cinema.util;
 
 
+import by.project.cinema.repository.MovieRepositoryImpl;
+import by.project.cinema.repository.TicketRepositoryImpl;
 import by.project.cinema.repository.UserRepositoryImpl;
-import by.project.cinema.service.UserService;
-import by.project.cinema.service.UserServiceImpl;
+import by.project.cinema.service.*;
 
 import java.util.Scanner;
 
@@ -12,7 +13,10 @@ public class Constants {
     public static Scanner sc = new Scanner(System.in);
     public static String step = "-1";
     public static UserService userService = new UserServiceImpl(new UserRepositoryImpl());
+    public static MovieService movieService = new MovieServiceImpl(new MovieRepositoryImpl());
+    public static TicketService ticketService = new TicketServiceImpl(new TicketRepositoryImpl());
 
+    public static final String DEFAULT = "default value";
 
     public static final String ID = "id";
     public static final String USERNAME = "username";
@@ -23,8 +27,8 @@ public class Constants {
 
 
 
-// secret command "admin"
     public static final String MAIN_MENU = """
+            
             -- MAIN MENU --
             1. list of films
             2. registration
@@ -32,15 +36,8 @@ public class Constants {
             0. exit
             """;
 
-
-    /**todo после списка фильмов разрешить выбрать нужный фильм
-     *      купить на него билет
-     *
-     *      your tickets позволяет просмотреть купленные билеты
-     *                  удалить билет
-     */
-
     public static final String USER_MENU = """
+            
             -- USER MENU --
             1. list of films
             2. your tickets            
@@ -48,8 +45,24 @@ public class Constants {
             0. back
             """;
 
+    public static final String USER_MOVIE_MENU = """
+            
+            --MOVIE MENU--
+            1. buy ticket
+            0. back
+            """;
+
+    public static final String USER_TICKET_MENU = """
+
+            --TICKET MENU--
+            1. return ticket
+            0. back
+            """;
+
+
 
     public static final String ADMIN_MENU = """
+            
             -- ADMIN MENU --
             1. create user
             2. update user          
@@ -60,12 +73,21 @@ public class Constants {
             """;
 
     public static final String MANAGER_MENU = """
+            
             -- MANAGER MENU --
             1. create film
             2. update film      
             3. delete film
             4. get film by id
             5. get all films
+            0. back
+            """;
+
+    public static final String MANAGER_MOVIE_MENU = """
+            
+            --MOVIE MENU--
+            1. buy ticket for user
+            2. return ticket for user
             0. back
             """;
 

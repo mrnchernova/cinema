@@ -16,7 +16,11 @@ public class AdminController {
 
     public static void adminMenu() {
 
-
+//        step = "?";
+//        while (!step.equals("0")) {
+//            System.out.println('\n' + MAIN_MENU);
+//            step = sc.nextLine();
+//
         while (!step.equals(0)) {
             System.out.println(ADMIN_MENU);
             try {
@@ -29,8 +33,11 @@ public class AdminController {
             switch (step) {
                 case "1" -> {
                     System.out.println("create user");
+                    System.out.println("enter username");
                     String username = sc.nextLine();
+                    System.out.println("enter password");
                     String password = sc.nextLine();
+                    System.out.println("enter email");
                     String email = sc.nextLine();
 
                     User user = new User(username, password, email);
@@ -84,7 +91,6 @@ public class AdminController {
                     List<User> userList = userService.getUsers();
                     System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
                     for (User u : userList) {
-
                         System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getPassword(), u.getEmail(), u.getRole());
                     }
                 }

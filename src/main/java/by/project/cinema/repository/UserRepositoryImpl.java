@@ -75,7 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM person");
             while (resultSet.next()) {
-                User u = new User(resultSet.getInt("id"),
+                User u = new User(
+                        resultSet.getInt("id"),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
                         resultSet.getString("email"),
