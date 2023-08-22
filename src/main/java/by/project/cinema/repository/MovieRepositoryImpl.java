@@ -1,8 +1,6 @@
 package by.project.cinema.repository;
 
 import by.project.cinema.model.Movie;
-import by.project.cinema.model.Role;
-import by.project.cinema.model.User;
 import by.project.cinema.util.ConnectionDB;
 
 import java.sql.*;
@@ -72,9 +70,11 @@ public class MovieRepositoryImpl implements MovieRepository {
                 String title = resultSet.getString("title");
                 Timestamp date = resultSet.getTimestamp("date");
                 movie = new Movie(id, title, date);
+
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+//            e.printStackTrace();
         }
         return movie;
     }
@@ -96,11 +96,11 @@ public class MovieRepositoryImpl implements MovieRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-            return movie;
-        }
-
-        @Override
-        public boolean isExistMovie ( int id){
-            return false;
-        }
+        return movie;
     }
+
+    @Override
+    public boolean isExistMovie(int id) {
+        return false;
+    }
+}

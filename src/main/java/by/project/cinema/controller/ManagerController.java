@@ -22,8 +22,8 @@ public class ManagerController {
                     System.out.println("enter title");
                     String title = sc.nextLine();
                     System.out.println("enter date xx.xx.xxxx xx:xx");
-                    String dateStr = "01.02.2011 15:45";
-//                String dateStr = sc.nextLine();  //TODO проверка ввода даты
+//                    String dateStr = "01.02.2011 15:45";
+                String dateStr = sc.nextLine();  //TODO проверка ввода даты
 
                     Date date = stringToDate(dateStr);
                     Timestamp timestamp = new Timestamp(date.getTime());
@@ -40,7 +40,7 @@ public class ManagerController {
                         ticket.setMovieId(movieService.getByTitle(title).getId());
                         ticketService.create(ticket);
                     }
-                }//create movie
+                }
                 case "2" -> {
                     System.out.println("update film");
                 }
@@ -54,14 +54,8 @@ public class ManagerController {
                     System.out.println("get all films");
                     MovieController.movieMenuManager();
                 }
-                case "0" -> {
-                    MainController.mainMenu();
-                }
-                default -> {
-                    System.out.println("something goes wrong");
-//                    sc.close();
-//                    System.exit(0);
-                }
+                case "0" -> MainController.mainMenu();
+                default -> System.out.println("something goes wrong");
             }
         }
     }

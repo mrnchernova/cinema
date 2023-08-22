@@ -3,6 +3,7 @@ package by.project.cinema.service;
 import by.project.cinema.model.Movie;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieService {
 
@@ -14,7 +15,7 @@ public interface MovieService {
 
     List<Movie> getMovies();
 
-    Movie getById(int id);
+    Optional<Movie> getById(int id);
 
     Movie getByTitle(String title);
 

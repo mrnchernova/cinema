@@ -43,7 +43,7 @@ public class AdminController {
                     User user = new User(username, password, email);
                     userService.create(user);
                 }
-                case "2" -> {
+                case "2" -> {                                       // админ может менять ВСЁ!!!!!!!!!!!!!!!!!!!!!!! сделать особый метод
                     System.out.println("update user");
                     System.out.println("enter id user");
                     int id = sc.nextInt();
@@ -54,7 +54,7 @@ public class AdminController {
                         System.out.println("enter new password");
                         String newPassword = sc.nextLine();
                         user.setPassword(newPassword);
-                        userService.update(user);
+//                        userService.updatePersonPassword(user);
                         System.out.println("user successfully updated");
                     } else {
                         System.out.println("user not found for update");

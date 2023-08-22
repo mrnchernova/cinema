@@ -4,6 +4,7 @@ import by.project.cinema.model.Movie;
 import by.project.cinema.repository.MovieRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static by.project.cinema.controller.MovieController.dateFormat;
 import static by.project.cinema.util.Constants.movieService;
@@ -36,8 +37,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getById(int id) {
-        return movieRepository.getById(id);
+    public Optional<Movie> getById(int id) {
+        return Optional.ofNullable(movieRepository.getById(id));
     }
 
     @Override

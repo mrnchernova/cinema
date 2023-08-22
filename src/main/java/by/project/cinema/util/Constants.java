@@ -41,7 +41,15 @@ public class Constants {
             -- USER MENU --
             1. list of films
             2. your tickets            
-            3. change password
+            3. update account
+            0. back
+            """;
+
+    public static final String UPDATE_ACCOUNT = """
+            
+            -- UPDATE ACCOUNT --
+            1. change password
+            2. change email         
             0. back
             """;
 

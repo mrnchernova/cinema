@@ -18,7 +18,8 @@ public class MovieController {
 
         int movieId = selectMovie();
 
-        System.out.println("\nFilm: " + movieService.getById(movieId).getTitle());
+//        System.out.println("\nFilm: " + movieService.getById(movieId).getTitle());  // Optional
+        System.out.println("\nFilm: --OPTIONAL--" + movieService.getById(movieId));  // Optional
         System.out.print("Available tickets: " + ticketService.countOfAvailableTickets(movieId));
         if (ticketService.countOfAvailableTickets(movieId) != 0) {
 
@@ -77,7 +78,8 @@ public class MovieController {
         int movieId = sc.nextInt();
         sc.nextLine();// чтоб в меню не считывалась пустая строка
 
-        Movie m = movieService.getById(movieId);
+        Movie m = movieService.getById(movieId)
+                .orElseThrow(() -> new RuntimeException(String.format("фильм по id %d не найден", movieId)));
         System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().getTime()));
 //        System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().toLocalDate()));   // !!! date
 

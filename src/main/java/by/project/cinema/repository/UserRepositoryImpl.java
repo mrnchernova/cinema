@@ -27,12 +27,14 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean updateUser(User user) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE person SET password = ? WHERE id = ?");
-            statement.setString(1, user.getPassword());
-            statement.setInt(2, user.getId());
+                    "UPDATE person SET username = ?, password = ?, email = ? WHERE id = ?");
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setInt(4, user.getId());
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -40,6 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return false;
     }
+
 
     @Override
     public boolean delete(int id) {
