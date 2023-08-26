@@ -74,7 +74,6 @@ public class MovieRepositoryImpl implements MovieRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
-//            e.printStackTrace();
         }
         return movie;
     }

@@ -17,6 +17,8 @@ public interface UserRepository {
 
     boolean isExistUser(int id);
 
+    boolean isExistUserByUsername(String username);
+
     User signIn(String username, String password);
 
 

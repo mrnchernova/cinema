@@ -72,6 +72,21 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean isExistUserByUsername(String username) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public List<User> getUsers() {
         List<User> userList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {

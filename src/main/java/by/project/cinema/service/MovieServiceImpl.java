@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import static by.project.cinema.controller.MovieController.dateFormat;
 import static by.project.cinema.util.Constants.movieService;
+import static by.project.cinema.util.Constants.sc;
 
 public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
@@ -53,7 +54,6 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void movieInfo() {
-        System.out.println("list of films");
         List<Movie> movies = movieRepository.getMovies();
         for (Movie m : movies) {
             System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().getTime()));

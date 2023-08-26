@@ -15,7 +15,14 @@ public interface UserService {
 
     User getById(int id);
 
+
     boolean isExistUser(int id);
 
+    boolean isExistUserByUsername(String username);
+
     User signIn(String username, String password);
+
+    boolean isPasswordValid(String password);
+
+    boolean isEmailValid(String email);
 }

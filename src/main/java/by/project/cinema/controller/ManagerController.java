@@ -19,9 +19,9 @@ public class ManagerController {
             step = sc.nextLine();
             switch (step) {
                 case "1" -> {
-                    System.out.println("enter title");
+                    System.out.println(ENTER_MOVIE_TITLE);
                     String title = sc.nextLine();
-                    System.out.println("enter date xx.xx.xxxx xx:xx");
+                    System.out.println(ENTER_MOVIE_DATE + MOVIE_DATE_FORMAT);
 //                    String dateStr = "01.02.2011 15:45";
                 String dateStr = sc.nextLine();  //TODO проверка ввода даты
 
@@ -55,7 +55,7 @@ public class ManagerController {
                     MovieController.movieMenuManager();
                 }
                 case "0" -> MainController.mainMenu();
-                default -> System.out.println("something goes wrong");
+                default -> System.out.println(SOMETHING_WRONG);
             }
         }
     }

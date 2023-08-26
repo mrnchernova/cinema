@@ -15,42 +15,45 @@ public class MovieController {
 
     public static void movieMenuUser(User user) {
         movieService.movieInfo();
-
         int movieId = selectMovie();
 
-//        System.out.println("\nFilm: " + movieService.getById(movieId).getTitle());  // Optional
-        System.out.println("\nFilm: --OPTIONAL--" + movieService.getById(movieId));  // Optional
-        System.out.print("Available tickets: " + ticketService.countOfAvailableTickets(movieId));
-        if (ticketService.countOfAvailableTickets(movieId) != 0) {
 
-            System.out.println('\n' + USER_MOVIE_MENU);
-            step = sc.nextLine();
+        if (movieService.getById(movieId).isEmpty()) {
+            System.out.format("фильм по id %d не найден", movieId);
+        } else {
+            System.out.println("\nFilm: " + movieService.getById(movieId).get());  // Optional
+            System.out.print("Available tickets: " + ticketService.countOfAvailableTickets(movieId));
+            if (ticketService.countOfAvailableTickets(movieId) != 0) {
 
-            switch (step) {
-                case "1" -> {
-                    System.out.println("buy ticket. choose seat");
-                    List<Ticket> notReservedTickets = ticketService.listOfAvailableTickets(movieId);
+                System.out.println('\n' + USER_MOVIE_MENU);
+                step = sc.nextLine();
 
-                    System.out.format("%-4s %-10s\n", "seat", "price");
-                    for (Ticket t : notReservedTickets) {
-                        System.out.format("%-4s %-10s\n", t.getSeat(), t.getPrice());
-                    }
-                    int cinemaSeat = sc.nextInt();
-                    sc.nextLine(); //иначе в меню пользователя считает пустую строку
+                switch (step) {
+                    case "1" -> {
+                        System.out.println(TICKET_SEAT);
+                        List<Ticket> notReservedTickets = ticketService.listOfAvailableTickets(movieId);
 
-                    for (Ticket t : notReservedTickets) {
-                        if (cinemaSeat == t.getSeat()) {
-                            ticketService.reserveTicket(user, cinemaSeat, movieId);                                         // User нужен???
-                            break;
+                        System.out.format("%-4s %-10s\n", SEAT, PRICE);
+                        for (Ticket t : notReservedTickets) {
+                            System.out.format("%-4s %-10s\n", t.getSeat(), t.getPrice());
+                        }
+                        int cinemaSeat = sc.nextInt();
+                        sc.nextLine(); //иначе в меню пользователя считает пустую строку
+
+                        for (Ticket t : notReservedTickets) {
+                            if (cinemaSeat == t.getSeat()) {
+                                ticketService.reserveTicket(user, cinemaSeat, movieId);                                         // User нужен???
+                                break;
+                            }
                         }
                     }
+                    case "0" -> UserController.userMenu(user);
+                    default -> System.out.println(SOMETHING_WRONG);
                 }
-                case "0" -> UserController.userMenu(user);
-                default -> System.out.println("something goes wrong");
+            } else {
+                System.out.println("\n" + TICKET_SOLD_OUT);
+                UserController.userMenu(user);
             }
-        } else {
-            System.out.println("\nnot available tickets for this film");
-            UserController.userMenu(user);
         }
     }
 
@@ -60,13 +63,13 @@ public class MovieController {
         step = sc.nextLine();
         switch (step) {
             case "1" -> {
-                System.out.println("buy ticket for user");
+                System.out.println(TICKET_BUY_FOR_USER);
             }
             case "2" -> {
-                System.out.println("return ticket for user");
+                System.out.println(TICKET_RETURN_FOR_USER);
             }
             case "0" -> ManagerController.managerMenu();
-            default -> System.out.println("something goes wrong");
+            default -> System.out.println(SOMETHING_WRONG);
         }
 
 
@@ -74,16 +77,14 @@ public class MovieController {
 
 
     public static int selectMovie() {
-        System.out.println("Select film id");
+        System.out.println(ENTER_MOVIE_ID);
         int movieId = sc.nextInt();
         sc.nextLine();// чтоб в меню не считывалась пустая строка
-
         Movie m = movieService.getById(movieId)
-                .orElseThrow(() -> new RuntimeException(String.format("фильм по id %d не найден", movieId)));
-        System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().getTime()));
+//                .orElseThrow(() -> new NoSuchElementException(String.format("фильм по id %d не найден", movieId)));
+                .orElse(new Movie());
+//        System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().getTime()));
 //        System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().toLocalDate()));   // !!! date
-
-
         return movieId;
     }
 

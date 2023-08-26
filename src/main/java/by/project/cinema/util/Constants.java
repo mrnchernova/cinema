@@ -17,12 +17,54 @@ public class Constants {
     public static TicketService ticketService = new TicketServiceImpl(new TicketRepositoryImpl());
 
     public static final String DEFAULT = "default value";
+    public static final String WELCOME = "Welcome, ";
 
     public static final String ID = "id";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String EMAIL = "email";
     public static final String ROLE = "role";
+    public static final String SEAT = "seat";
+    public static final String PRICE = "price";
+    public static final String MOVIE = "movie";
+
+    public static final String ENTER_USER_ID = "Enter user id: ";
+    public static final String ENTER_USERNAME = "Enter username: ";
+    public static final String ENTER_PASSWORD = "Enter password: ";
+    public static final String ENTER_EMAIL = "Enter email: ";
+    public static final String ENTER_MOVIE_ID = "Enter film id: ";
+    public static final String ENTER_MOVIE_TITLE = "Enter title: ";
+    public static final String ENTER_MOVIE_DATE = "Enter date ";
+    public static final String MOVIE_DATE_FORMAT = "xx.xx.xxxx xx:xx ";
+    public static final String TICKET_RETURN_BY_ID = "Select id for return ticket ";
+
+    /** DB requests */
+    public static final String SMTH = "smth";
+
+    /** information messages */
+    public static final String PASSWORD_RULE = "The password must consist of a capital letter, a lowercase letter, a number, and a symbol. Password length [6..20]. ";
+    public static final String PASSWORD_NOT_VALID = "Password not correct. ";
+    public static final String EMAIL_NOT_VALID = "Email not correct. ";
+
+    public static final String TRY_AGAIN = "Try again ";
+    public static final String NOT_SUCCESSFUL = "Not Successful. ";
+    public static final String SUCCESSFUL = "Successful. ";
+    public static final String SOMETHING_WRONG = "Something goes wrong";
+
+    public static final String USER_EXISTS = "Such user already exists. ";
+    public static final String USER_NOT_FOUND = "User not found";
+    public static final String USER_UPDATED = "User successfully updated";
+    public static final String USER_DELETED = "User successfully deleted";
+    public static final String UNKNOWN_ROLE = "Undefined role";
+    public static final String NEEDS_REGISTRATION = "You need registered first";
+
+    public static final String TICKET_SEAT = "Choose seat ";
+    public static final String TICKET_SOLD_OUT = "Not available tickets for this film";
+
+    public static final String TICKET_BUY_FOR_USER = "Buy ticket for user";
+    public static final String TICKET_RETURN_FOR_USER = "Return ticket for user";
+
+
 
 
 

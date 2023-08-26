@@ -15,42 +15,57 @@ public class MainController {
             switch (step) {
                 case "1" -> movieService.movieInfo();
                 case "2" -> {
-                    System.out.println("registration");
-                    System.out.print("login ");
+                    System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
-                    System.out.print("password ");
+                    while (userService.isExistUserByUsername(username)){
+                        System.out.println(USER_EXISTS + TRY_AGAIN);
+                        username = sc.nextLine();
+                    }
+
+                    System.out.print(ENTER_PASSWORD);
                     String password = sc.nextLine();
-                    System.out.print("email "); //TODO validation email
+                    while (!userService.isPasswordValid(password)){
+                        System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
+                        password = sc.nextLine();
+                    }
+
+
+                    System.out.print(ENTER_EMAIL);
                     String email = sc.nextLine();
+                    while (!userService.isEmailValid(email)){
+                        System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
+                        email = sc.nextLine();
+                    }
 
                     User user = new User(username, password, email);
                     userService.create(user);
+
+
                 }
                 case "3" -> {
-                    System.out.println("sign in");
-                    System.out.print("Enter username: ");
+                    System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
-                    System.out.print("Enter password: ");
+                    System.out.print(ENTER_PASSWORD);
                     String password = sc.nextLine();
                     User currentUser = userService.signIn(username, password);
                     if (currentUser == null) {
-                        System.out.println("you need registered first");
+                        System.out.println(NEEDS_REGISTRATION);
                     } else {
-                        System.out.println("\nwelcome, " + username);
+                        System.out.println("\n" + WELCOME + username);
                         switch (currentUser.getRole().toString()) {
                             case "ADMIN" -> AdminController.adminMenu();
                             case "MANAGER" -> ManagerController.managerMenu();
                             case "USER" -> UserController.userMenu(currentUser);                   // надо передать юзера
-                            default -> System.out.println("Undefined role");
+                            default -> System.out.println(UNKNOWN_ROLE);
                         }
                     }
-                } //sign in
+                }
                 case "0" -> {
                     sc.close();
                     System.exit(0);
-                } //close
+                }
                 default -> {
-                    System.out.println("something goes wrong");
+                    System.out.println(SOMETHING_WRONG);
                 }
             }
         }
