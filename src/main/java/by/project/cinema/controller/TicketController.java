@@ -27,11 +27,15 @@ public class TicketController {
                 System.out.println(TICKET_RETURN_BY_ID);
                 int ticketId = sc.nextInt();
                 sc.nextLine();
-                ticketService.returnTicket(ticketId);
 
-
-            }
-            case "0" -> UserController.userMenu(user);
+                if (ticketService.isExistTicket(ticketId)) {
+                    ticketService.returnTicket(ticketId);
+                    System.out.println("Ticket returned");
+                }else{
+                    System.out.println("Unknown ticket");
+                }
+            }                                   //return ticket
+            case "0" -> UserController.userMenu(user);          //back
             default -> System.out.println(SOMETHING_WRONG);
         }
 

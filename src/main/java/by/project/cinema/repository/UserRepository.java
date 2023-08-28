@@ -5,7 +5,7 @@ import by.project.cinema.model.User;
 import java.util.List;
 
 public interface UserRepository {
-    boolean create(User user);
+    boolean createUser(User user);
 
     boolean updateUser(User user);
 
@@ -13,7 +13,7 @@ public interface UserRepository {
 
     List<User> getUsers();
 
-    User getById(int id);
+    User getUserById(int id);
 
     boolean isExistUser(int id);
 

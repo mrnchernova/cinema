@@ -13,16 +13,9 @@ public class UserController {
             step = sc.nextLine();
 
             switch (step) {
-                case "1" -> {
-//                    System.out.println("list of films");
-                    MovieController.movieMenuUser(user);
-                }
-                case "2" -> {
-//                    System.out.println("your tickets");
-                    TicketController.ticketMenuUser(user);
-                }
+                case "1" -> MovieController.movieMenuUser(user);        //list of films
+                case "2" -> TicketController.ticketMenuUser(user);      //your tickets
                 case "3" -> {
-//                    System.out.println("update account");
                     System.out.println(UPDATE_ACCOUNT);
                     step = sc.nextLine();
                     switch (step) {
@@ -57,7 +50,7 @@ public class UserController {
                         }
                     }
 
-                }
+                }                                       //update account
                 case "0" -> MainController.mainMenu();
                 default -> System.out.println(SOMETHING_WRONG);
             }

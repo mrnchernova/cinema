@@ -14,34 +14,7 @@ public class MainController {
             step = sc.nextLine();
             switch (step) {
                 case "1" -> movieService.movieInfo();
-                case "2" -> {
-                    System.out.print(ENTER_USERNAME);
-                    String username = sc.nextLine();
-                    while (userService.isExistUserByUsername(username)){
-                        System.out.println(USER_EXISTS + TRY_AGAIN);
-                        username = sc.nextLine();
-                    }
-
-                    System.out.print(ENTER_PASSWORD);
-                    String password = sc.nextLine();
-                    while (!userService.isPasswordValid(password)){
-                        System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
-                        password = sc.nextLine();
-                    }
-
-
-                    System.out.print(ENTER_EMAIL);
-                    String email = sc.nextLine();
-                    while (!userService.isEmailValid(email)){
-                        System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
-                        email = sc.nextLine();
-                    }
-
-                    User user = new User(username, password, email);
-                    userService.create(user);
-
-
-                }
+                case "2" -> userService.createUser();
                 case "3" -> {
                     System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();

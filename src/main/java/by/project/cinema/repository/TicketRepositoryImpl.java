@@ -113,9 +113,6 @@ public class TicketRepositoryImpl implements TicketRepository {
             statement.setInt(3, seat);
             statement.setInt(4, movieId);
             statement.execute();
-            System.out.println("ticket bought by " + user.getUsername());
-            System.out.println("seat " + seat);
-            System.out.println("movie id " + movieId);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,9 +127,24 @@ public class TicketRepositoryImpl implements TicketRepository {
                     "UPDATE ticket SET person_id=null, in_stock=? WHERE id = ?");
             statement.setBoolean(1, true);
             statement.setInt(2, id);
-            System.out.println("TICKET RETURNED");
+//            System.out.println("TICKET RETURNED");
             statement.execute();
             return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isExistTicket(int id) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ticket WHERE id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

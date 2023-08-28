@@ -12,10 +12,12 @@ public interface TicketRepository {
     List<Ticket> getTickets();
 
     List<Ticket> getTicketsByMovieId(int movieId);
+
     List<Ticket> getTicketsByUserId(int userId);
 
     boolean reserveTicket(User user, int seat, int movieId);
+
     boolean returnTicket(int id);
 
-
+    boolean isExistTicket(int id);
 }

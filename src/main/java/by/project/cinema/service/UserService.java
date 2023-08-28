@@ -2,18 +2,17 @@ package by.project.cinema.service;
 
 import by.project.cinema.model.User;
 
-import java.util.List;
 
 public interface UserService {
-    boolean create(User user);
+    void createUser();
 
     boolean updateUser(User user);
 
     boolean delete(int id);
 
-    List<User> getUsers();
+    void getUsers();
 
-    User getById(int id);
+    User getUserById(int id);
 
 
     boolean isExistUser(int id);

@@ -1,8 +1,7 @@
 package by.project.cinema.controller;
 
+import by.project.cinema.model.Role;
 import by.project.cinema.model.User;
-
-import java.util.List;
 
 import static by.project.cinema.util.Constants.*;
 
@@ -18,42 +17,64 @@ public class AdminController {
                 sc.next();
             }
 
-
             switch (step) {
-                case "1" -> {
-//                    System.out.println("create user");
-                    System.out.println(ENTER_USERNAME);//TODO validation
-                    String username = sc.nextLine();
-                    System.out.println(ENTER_PASSWORD);
-                    String password = sc.nextLine();
-                    System.out.println(ENTER_EMAIL);
-                    String email = sc.nextLine();
-
-                    User user = new User(username, password, email);
-                    userService.create(user);
-                }
-                case "2" -> {                                       // TODO админ может менять ВСех!!! и роли тоже
-//                    System.out.println("update user");
+                case "1" -> userService.createUser();           //create user
+                case "2" -> {
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
                     sc.nextLine();
 
                     if (userService.isExistUser(id)) {
-                        User user = userService.getById(id);
-                        System.out.println(ENTER_PASSWORD);
-                        String newPassword = sc.nextLine();
-                        user.setPassword(newPassword);
-//                        userService.updatePersonPassword(user);//TODO что это?
-                        System.out.println(USER_UPDATED);
-                    } else {
-                        System.out.println(USER_NOT_FOUND);
-                    }
+                        User user = userService.getUserById(id);
 
-                }
+                        System.out.println(USER_NEW_USERNAME);
+                        String username = sc.nextLine();
+                        if (!username.isEmpty()) {
+                            while (userService.isExistUserByUsername(username)) {
+                                System.out.println(USER_EXISTS + TRY_AGAIN);
+                                username = sc.nextLine();
+                            }
+                            user.setUsername(username);
+                        }
+
+                        System.out.println(USER_NEW_PASSWORD);
+                        String password = sc.nextLine();
+                        if (!password.isEmpty()) {
+                            while (!userService.isPasswordValid(password)) {
+                                System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
+                                password = sc.nextLine();
+                            }
+                            user.setPassword(password);
+                        }
+
+                        System.out.println(USER_NEW_EMAIL);
+                        String email = sc.nextLine();
+                        if (!email.isEmpty()) {
+                            while (!userService.isEmailValid(email)) {
+                                System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
+                                email = sc.nextLine();
+                            }
+                            user.setEmail(email);
+                        }
+
+                        System.out.println(USER_NEW_ROLE);
+                        int roleId = sc.nextInt();
+                        sc.nextLine();
+                        if (roleId == 1 || roleId == 2 || roleId == 3) {
+                            user.setRole(Role.getByOrdinal(--roleId));
+                        }
+                        if (userService.updateUser(user)) {
+                            System.out.println(USER_UPDATED);
+                        } else {
+                            System.out.println(NOT_SUCCESSFUL);
+                        }
+
+                    }
+                }                               //update user
                 case "3" -> {
-//                    System.out.println("delete user");
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
+                    sc.nextLine();
                     if (userService.isExistUser(id)) {
                         if (userService.delete(id)) {
                             System.out.println(USER_DELETED);
@@ -61,34 +82,21 @@ public class AdminController {
                     } else {
                         System.out.println(USER_NOT_FOUND);
                     }
-                }
+                }                               //delete user
                 case "4" -> {
-//                    System.out.println("get user by id");
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
+                    sc.nextLine();
                     if (userService.isExistUser(id)) {
                         System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
-                        System.out.println(userService.getById(id));
+                        System.out.println(userService.getUserById(id));
                     } else {
                         System.out.println(USER_NOT_FOUND);
                     }
-
-
-                }
-                case "5" -> {
-//                    System.out.println("get all users");
-                    List<User> userList = userService.getUsers();
-                    System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
-                    for (User u : userList) {
-                        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getPassword(), u.getEmail(), u.getRole());
-                    }
-                }
-                case "0" -> {
-                    MainController.mainMenu();
-                }
-                default -> {
-                    System.out.println(SOMETHING_WRONG);
-                }
+                }                               //get user by id
+                case "5" -> userService.getUsers();             //get all users
+                case "0" -> MainController.mainMenu();
+                default -> System.out.println(SOMETHING_WRONG);
             }
         }
     }

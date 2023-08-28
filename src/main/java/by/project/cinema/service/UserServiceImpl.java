@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static by.project.cinema.util.Constants.*;
+import static by.project.cinema.util.Constants.userService;
+
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
@@ -15,8 +18,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean create(User user) {
-        return userRepository.create(user);
+    public void createUser() {
+        System.out.print(ENTER_USERNAME);
+        String username = sc.nextLine();
+        while (userService.isExistUserByUsername(username)){
+            System.out.println(USER_EXISTS + TRY_AGAIN);
+            username = sc.nextLine();
+        }
+
+        System.out.print(ENTER_PASSWORD);
+        String password = sc.nextLine();
+        while (!userService.isPasswordValid(password)){
+            System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
+            password = sc.nextLine();
+        }
+
+        System.out.print(ENTER_EMAIL);
+        String email = sc.nextLine();
+        while (!userService.isEmailValid(email)){
+            System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
+            email = sc.nextLine();
+        }
+
+        User user = new User(username, password, email);
+        userRepository.createUser(user);
     }
 
     public boolean updateUser(User user) {
@@ -29,13 +54,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.getUsers();
+    public void getUsers() {
+//        return userRepository.getUsers();
+        List<User> userList = userRepository.getUsers();
+        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
+        for (User u : userList) {
+            System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getPassword(), u.getEmail(), u.getRole());
+        }
     }
 
     @Override
-    public User getById(int id) {
-        return userRepository.getById(id);
+    public User getUserById(int id) {
+        return userRepository.getUserById(id);
     }
 
     @Override

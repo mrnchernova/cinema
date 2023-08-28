@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
     @Override
-    public boolean create(User user) {
+    public boolean createUser(User user) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO person (username, password, email, role) VALUES (?, ?, ?, ?)");
@@ -30,11 +30,12 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean updateUser(User user) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE person SET username = ?, password = ?, email = ? WHERE id = ?");
+                    "UPDATE person SET username = ?, password = ?, email = ?, role = ? WHERE id = ?");
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
-            statement.setInt(4, user.getId());
+            statement.setString(4, user.getRole().toString());
+            statement.setInt(5, user.getId());
             statement.execute();
             return true;
         } catch (SQLException e) {
@@ -109,7 +110,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getById(int userId) {
+    public User getUserById(int userId) {
         User user = null;
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?");

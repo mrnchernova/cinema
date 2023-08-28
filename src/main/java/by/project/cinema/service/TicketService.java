@@ -12,13 +12,17 @@ public interface TicketService {
     List<Ticket> getTickets();
 
     List<Ticket> getTicketsByMovieId(int movieId);
+
     List<Ticket> getTicketsByUserId(int userId);
 
     boolean reserveTicket(User user, int seat, int movieId);
+
     boolean returnTicket(int id);
 
     int countOfAvailableTickets(int movieId);
 
     List<Ticket> listOfAvailableTickets(int movieId);
+
+    boolean isExistTicket(int id);
 
 }

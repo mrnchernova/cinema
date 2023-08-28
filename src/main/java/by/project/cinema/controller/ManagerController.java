@@ -40,21 +40,18 @@ public class ManagerController {
                         ticket.setMovieId(movieService.getByTitle(title).getId());
                         ticketService.create(ticket);
                     }
-                }
+                }                               //create film
                 case "2" -> {
                     System.out.println("update film");
-                }
+                }                               //update film
                 case "3" -> {
                     System.out.println("delete film");
-                }
+                }                               //delete film
                 case "4" -> {
                     System.out.println("get film by id");
-                }
-                case "5" -> {
-                    System.out.println("get all films");
-                    MovieController.movieMenuManager();
-                }
-                case "0" -> MainController.mainMenu();
+                }                               //get film by id
+                case "5" -> MovieController.movieMenuManager(); //get all films
+                case "0" -> MainController.mainMenu();          //back
                 default -> System.out.println(SOMETHING_WRONG);
             }
         }

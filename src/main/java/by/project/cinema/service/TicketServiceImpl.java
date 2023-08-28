@@ -70,4 +70,9 @@ public class TicketServiceImpl implements TicketService {
         }
         return notReservedTickets;
     }
+
+    @Override
+    public boolean isExistTicket(int id) {
+        return ticketRepository.isExistTicket(id);
+    }
 }

@@ -55,6 +55,12 @@ public class Constants {
     public static final String USER_NOT_FOUND = "User not found";
     public static final String USER_UPDATED = "User successfully updated";
     public static final String USER_DELETED = "User successfully deleted";
+    public static final String USER_NEW_USERNAME = "Write new username or press Enter";
+    public static final String USER_NEW_PASSWORD = "Write new password or press Enter";
+    public static final String USER_NEW_EMAIL = "Write new email or press Enter";
+    public static final String USER_NEW_ROLE = "Choose new role \n1 Admin \n2 User \n3 Manager";
+
+
     public static final String UNKNOWN_ROLE = "Undefined role";
     public static final String NEEDS_REGISTRATION = "You need registered first";
 
@@ -108,8 +114,6 @@ public class Constants {
             1. return ticket
             0. back
             """;
-
-
 
     public static final String ADMIN_MENU = """
             

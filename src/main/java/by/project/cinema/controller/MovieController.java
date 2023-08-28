@@ -14,9 +14,8 @@ public class MovieController {
     public static DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     public static void movieMenuUser(User user) {
-        movieService.movieInfo();
-        int movieId = selectMovie();
-
+        movieService.movieInfo();                   //list of films
+        int movieId = selectMovie();                //film id
 
         if (movieService.getById(movieId).isEmpty()) {
             System.out.format("фильм по id %d не найден", movieId);
@@ -38,16 +37,20 @@ public class MovieController {
                             System.out.format("%-4s %-10s\n", t.getSeat(), t.getPrice());
                         }
                         int cinemaSeat = sc.nextInt();
-                        sc.nextLine(); //иначе в меню пользователя считает пустую строку
+                        sc.nextLine();
 
                         for (Ticket t : notReservedTickets) {
                             if (cinemaSeat == t.getSeat()) {
-                                ticketService.reserveTicket(user, cinemaSeat, movieId);                                         // User нужен???
+                                if (ticketService.reserveTicket(user, cinemaSeat, movieId)) {
+                                    System.out.println("ticket bought by " + user.getUsername());
+                                    System.out.println("seat " + cinemaSeat);
+                                    System.out.println("movie " + movieService.getById(movieId).get().getTitle());
+                                }
                                 break;
                             }
                         }
-                    }
-                    case "0" -> UserController.userMenu(user);
+                    }                               //buy ticket
+                    case "0" -> UserController.userMenu(user);      //back
                     default -> System.out.println(SOMETHING_WRONG);
                 }
             } else {
