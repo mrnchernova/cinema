@@ -9,13 +9,13 @@ public interface MovieService {
 
     boolean create(Movie movie);
 
-    boolean update(Movie movie);
+    boolean updateMovie(Movie movie);
 
     boolean delete(int id);
 
     List<Movie> getMovies();
 
-    Optional<Movie> getById(int id);
+    Optional<Movie> getMovieById(int id);
 
     Movie getByTitle(String title);
 

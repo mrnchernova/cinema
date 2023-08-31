@@ -27,8 +27,8 @@ public class MainController {
                         System.out.println("\n" + WELCOME + username);
                         switch (currentUser.getRole().toString()) {
                             case "ADMIN" -> AdminController.adminMenu();
-                            case "MANAGER" -> ManagerController.managerMenu();
-                            case "USER" -> UserController.userMenu(currentUser);                   // надо передать юзера
+                            case "MANAGER" -> ManagerController.managerMenu(currentUser);
+                            case "USER" -> UserController.userMenu(currentUser);
                             default -> System.out.println(UNKNOWN_ROLE);
                         }
                     }

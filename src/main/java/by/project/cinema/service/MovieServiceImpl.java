@@ -23,13 +23,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean update(Movie movie) {
-        return false;
+    public boolean updateMovie(Movie movie) {
+        return movieRepository.updateMovie(movie);
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return movieRepository.delete(id);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Optional<Movie> getById(int id) {
-        return Optional.ofNullable(movieRepository.getById(id));
+    public Optional<Movie> getMovieById(int id) {
+        return Optional.ofNullable(movieRepository.getMovieById(id));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public boolean isExistMovie(int id) {
-        return false;
+        return movieRepository.isExistMovie(id);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class TicketController {
         System.out.format("%-4s %-4s %-10s %-40s\n", ID, SEAT, PRICE, MOVIE);
         for (Ticket t : tickets) {
             System.out.format("%-4s %-4s %-10s", t.getId(), t.getSeat(), t.getPrice());
-            System.out.println(movieService.getById(t.getMovieId()).get().getTitle());          //fixme or not? isExist Optional here
+            System.out.println(movieService.getMovieById(t.getMovieId()).get().getTitle());          //fixme or not? isExist Optional here
         }
 
         System.out.println('\n' + USER_TICKET_MENU);

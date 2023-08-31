@@ -18,7 +18,7 @@ public class MovieRepositoryImpl implements MovieRepository {
             statement.setTimestamp(2, movie.getDate());                                                                 // !!! date
 //            statement.setDate(2, Date.valueOf(movie.getDate().toLocalDate()));
             statement.execute();
-            System.out.println("database successfully updated");
+
 
             return true;
         } catch (SQLException e) {
@@ -27,12 +27,31 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public boolean update(Movie movie) {
+    public boolean updateMovie(Movie movie) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE movie SET title = ?, date = ? WHERE id = ?");
+            statement.setString(1, movie.getTitle());
+            statement.setTimestamp(2, movie.getDate());
+            statement.setInt(3, movie.getId());
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete(int id) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM movie WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         return false;
     }
 
@@ -58,7 +77,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie getById(int movieId) {
+    public Movie getMovieById(int movieId) {
         Movie movie = null;
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM movie WHERE id=?");
@@ -100,6 +119,16 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public boolean isExistMovie(int id) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM movie WHERE id=?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

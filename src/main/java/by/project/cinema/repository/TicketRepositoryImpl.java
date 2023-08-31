@@ -3,8 +3,6 @@ package by.project.cinema.repository;
 import by.project.cinema.model.Ticket;
 import by.project.cinema.model.User;
 import by.project.cinema.util.ConnectionDB;
-import com.sun.source.tree.DefaultCaseLabelTree;
-import lombok.Builder;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -18,7 +18,7 @@ public class AdminController {
             }
 
             switch (step) {
-                case "1" -> userService.createUser();           //create user
+                case "1" -> userService.createUser();                                                                   //create user
                 case "2" -> {
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
@@ -70,7 +70,7 @@ public class AdminController {
                         }
 
                     }
-                }                               //update user
+                }                                                                                       //update user
                 case "3" -> {
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
@@ -82,7 +82,7 @@ public class AdminController {
                     } else {
                         System.out.println(USER_NOT_FOUND);
                     }
-                }                               //delete user
+                }                                                                                       //delete user
                 case "4" -> {
                     System.out.println(ENTER_USER_ID);
                     int id = sc.nextInt();
@@ -93,8 +93,8 @@ public class AdminController {
                     } else {
                         System.out.println(USER_NOT_FOUND);
                     }
-                }                               //get user by id
-                case "5" -> userService.getUsers();             //get all users
+                }                                                                                       //get user by id
+                case "5" -> userService.getUsers();                                                                     //get all users
                 case "0" -> MainController.mainMenu();
                 default -> System.out.println(SOMETHING_WRONG);
             }

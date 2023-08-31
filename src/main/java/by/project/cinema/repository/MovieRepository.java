@@ -8,13 +8,13 @@ public interface MovieRepository {
 
     boolean create(Movie movie);
 
-    boolean update(Movie movie);
+    boolean updateMovie(Movie movie);
 
     boolean delete(int id);
 
     List<Movie> getMovies();
 
-    Movie getById(int id);
+    Movie getMovieById(int id);
 
     Movie getByTitle(String title);
 
