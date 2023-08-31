@@ -14,7 +14,9 @@ public class UserController {
 
             switch (step) {
                 case "1" -> MovieController.movieMenuUser(user);        //list of films
-                case "2" -> TicketController.ticketMenuUser(user);      //your tickets
+                case "2" -> {
+                    TicketController.ticketMenuUser(user, null);
+                }      //your tickets
                 case "3" -> {
                     System.out.println(UPDATE_ACCOUNT);
                     step = sc.nextLine();

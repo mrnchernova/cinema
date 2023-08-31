@@ -41,7 +41,7 @@ public class MovieController {
                 sc.nextLine();
 
                 User selectedUser = userService.getUserById(userId);
-                TicketController.ticketMenuUser(selectedUser);
+                TicketController.ticketMenuUser(selectedUser, manager);
             }                                                                                           //return ticket for user
             case "0" -> ManagerController.managerMenu(manager);
             default -> System.out.println(SOMETHING_WRONG);

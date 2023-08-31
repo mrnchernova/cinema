@@ -9,14 +9,14 @@ import static by.project.cinema.util.Constants.*;
 
 public class TicketController {
 
-    public static void ticketMenuUser(User user) {
+    public static void ticketMenuUser(User user, User manager) {
 
 
         List<Ticket> tickets = ticketService.getTicketsByUserId(user.getId());
         System.out.format("%-4s %-4s %-10s %-40s\n", ID, SEAT, PRICE, MOVIE);
         for (Ticket t : tickets) {
             System.out.format("%-4s %-4s %-10s", t.getId(), t.getSeat(), t.getPrice());
-            System.out.println(movieService.getMovieById(t.getMovieId()).get().getTitle());          //fixme or not? isExist Optional here
+            System.out.println(movieService.getMovieById(t.getMovieId()).get().getTitle());                             //fixme or not? isExist Optional here
         }
 
         System.out.println('\n' + USER_TICKET_MENU);
@@ -31,11 +31,18 @@ public class TicketController {
                 if (ticketService.isExistTicket(ticketId)) {
                     ticketService.returnTicket(ticketId);
                     System.out.println("Ticket returned");
-                }else{
+                } else {
                     System.out.println("Unknown ticket");
                 }
-            }                                   //return ticket
-            case "0" -> UserController.userMenu(user);          //back
+            }                                                                                           //return ticket
+            case "0" -> {
+                if (manager == null) {
+                    UserController.userMenu(user);
+                } else {
+                    ManagerController.managerMenu(manager);
+                }
+                }                                                                                           //back
+
             default -> System.out.println(SOMETHING_WRONG);
         }
 
