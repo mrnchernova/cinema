@@ -24,13 +24,11 @@ public class AdminController {
                 case "1" -> userService.createUser();                                                                   //create user
                 case "2" -> {
                     System.out.println(ENTER_USER_ID);
-//                    boolean validUserId = false;
                     try {
                         int id = sc.nextInt();
                         sc.nextLine();
 
                         if (userService.isExistUser(id)) {
-//                            validUserId = true;
                             User user = userService.getUserById(id);
 
                             System.out.println(USER_NEW_USERNAME);
@@ -74,15 +72,10 @@ public class AdminController {
                             } else {
                                 System.out.println(NOT_SUCCESSFUL);
                             }
-
-                        }else{
+                        } else {
                             System.out.println("Unknown user id");
                         }
-
-
-
-
-                    }catch (InputMismatchException e){
+                    } catch (InputMismatchException e) {
                         System.out.println("Unknown user id");
                         sc.nextLine();
                     }
