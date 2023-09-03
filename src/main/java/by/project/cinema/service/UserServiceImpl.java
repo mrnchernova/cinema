@@ -8,7 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static by.project.cinema.util.Constants.*;
-import static by.project.cinema.util.Constants.userService;
+import static by.project.cinema.util.Util.sc;
+import static by.project.cinema.util.Util.userService;
 
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -21,21 +22,21 @@ public class UserServiceImpl implements UserService {
     public void createUser() {
         System.out.print(ENTER_USERNAME);
         String username = sc.nextLine();
-        while (userService.isExistUserByUsername(username)){
+        while ((userService.isExistUserByUsername(username)) || (username.isEmpty())) {
             System.out.println(USER_EXISTS + TRY_AGAIN);
             username = sc.nextLine();
         }
 
         System.out.print(ENTER_PASSWORD);
         String password = sc.nextLine();
-        while (!userService.isPasswordValid(password)){
+        while ((!userService.isPasswordValid(password) || (password.isEmpty()))) {
             System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
             password = sc.nextLine();
         }
 
         System.out.print(ENTER_EMAIL);
         String email = sc.nextLine();
-        while (!userService.isEmailValid(email)){
+        while ((!userService.isEmailValid(email)) || (email.isEmpty())) {
             System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
             email = sc.nextLine();
         }

@@ -13,5 +13,4 @@ public enum Role {
         }
         return values[ordinal];
     }
-
 }

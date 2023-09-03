@@ -4,6 +4,7 @@ import by.project.cinema.model.Movie;
 import by.project.cinema.util.ConnectionDB;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,9 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public boolean create(Movie movie) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO movie (title, date) VALUES (?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO movie (title, date) VALUES (?, ?)");
             statement.setString(1, movie.getTitle());
-            statement.setTimestamp(2, movie.getDate());                                                                 // !!! date
-//            statement.setDate(2, Date.valueOf(movie.getDate().toLocalDate()));
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(movie.getDate()));
             statement.execute();
 
 
@@ -29,10 +28,9 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public boolean updateMovie(Movie movie) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE movie SET title = ?, date = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE movie SET title = ?, date = ? WHERE id = ?");
             statement.setString(1, movie.getTitle());
-            statement.setTimestamp(2, movie.getDate());
+            statement.setTimestamp(2, java.sql.Timestamp.valueOf(movie.getDate()));
             statement.setInt(3, movie.getId());
             statement.execute();
             return true;
@@ -62,12 +60,11 @@ public class MovieRepositoryImpl implements MovieRepository {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM movie");
             while (resultSet.next()) {
-                Movie m = new Movie(
-                        resultSet.getInt("id"),
-                        resultSet.getString("title"),
-                        resultSet.getTimestamp("date"));                                                                  // !!! date
-
-
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("title");
+                Timestamp t = resultSet.getTimestamp("date");
+                LocalDateTime date = t.toLocalDateTime();
+                Movie m = new Movie(id, title, date);
                 movieList.add(m);
             }
         } catch (SQLException e) {
@@ -87,9 +84,9 @@ public class MovieRepositoryImpl implements MovieRepository {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
-                Timestamp date = resultSet.getTimestamp("date");
+                Timestamp t = resultSet.getTimestamp("date");
+                LocalDateTime date = t.toLocalDateTime();
                 movie = new Movie(id, title, date);
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
@@ -108,7 +105,8 @@ public class MovieRepositoryImpl implements MovieRepository {
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
-                Timestamp date = resultSet.getTimestamp("date");
+                Timestamp t = resultSet.getTimestamp("date");
+                LocalDateTime date = t.toLocalDateTime();
                 movie = new Movie(id, title, date);
             }
         } catch (SQLException e) {

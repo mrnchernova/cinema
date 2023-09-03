@@ -19,7 +19,6 @@ public class TicketRepositoryImpl implements TicketRepository {
             statement.setBoolean(3, ticket.isInStock());
             statement.setInt(4, ticket.getMovieId());
             statement.execute();
-            System.out.println("database successfully updated");
             return true;
         } catch (SQLException e) {
             return false;
@@ -105,7 +104,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     public boolean reserveTicket(User user, int seat, int movieId) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE ticket SET person_id = ?, in_stock=? WHERE seat = ? AND movie_id=?");
+                    "UPDATE ticket SET person_id=?, in_stock=? WHERE seat = ? AND movie_id=?");
             statement.setInt(1, user.getId());
             statement.setBoolean(2, false);
             statement.setInt(3, seat);
@@ -125,7 +124,6 @@ public class TicketRepositoryImpl implements TicketRepository {
                     "UPDATE ticket SET person_id=null, in_stock=? WHERE id = ?");
             statement.setBoolean(1, true);
             statement.setInt(2, id);
-//            System.out.println("TICKET RETURNED");
             statement.execute();
             return true;
         } catch (SQLException e) {

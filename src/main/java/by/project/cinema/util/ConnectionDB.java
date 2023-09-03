@@ -18,9 +18,9 @@ public final class ConnectionDB {
     public static Connection open() {
         try {
             return DriverManager.getConnection(
-                    PropertiesUtil.get(URL_KEY),
-                    PropertiesUtil.get(USERNAME_KEY),
-                    PropertiesUtil.get(PASSWORD_KEY));
+                    Properties.get(URL_KEY),
+                    Properties.get(USERNAME_KEY),
+                    Properties.get(PASSWORD_KEY));
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при подключении к БД" + e.getMessage());
         }

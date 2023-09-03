@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static by.project.cinema.controller.MovieController.dateFormat;
+import static by.project.cinema.util.Util.formatter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,18 +14,15 @@ import static by.project.cinema.controller.MovieController.dateFormat;
 public class Movie {
     private int id;
     private String title;
-    private Timestamp date;
-//    private LocalDateTime date;
+    private LocalDateTime date;
 
-    public Movie(String title, Timestamp date) {
+    public Movie(String title, LocalDateTime date) {
         this.title = title;
         this.date = date;
     }
 
     @Override
     public String toString() {
-        String str =  String.format("%-4s %-35s %-15s\n", id, title, dateFormat.format(date.getTime()));
-        return str;
-
+        return String.valueOf(System.out.format("%-4s %-35s %-15s\n", id, title, formatter.format(date)));
     }
 }

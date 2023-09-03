@@ -4,6 +4,7 @@ package by.project.cinema.controller;
 import by.project.cinema.model.User;
 
 import static by.project.cinema.util.Constants.*;
+import static by.project.cinema.util.Util.*;
 
 public class MainController {
 

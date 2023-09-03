@@ -3,6 +3,7 @@ package by.project.cinema.controller;
 import by.project.cinema.model.User;
 
 import static by.project.cinema.util.Constants.*;
+import static by.project.cinema.util.Util.*;
 
 public class UserController {
 
@@ -15,7 +16,7 @@ public class UserController {
             switch (step) {
                 case "1" -> MovieController.movieMenuUser(user);        //list of films
                 case "2" -> {
-                    TicketController.ticketMenuUser(user, null);
+                    TicketController.returnTicket(user, null);
                 }      //your tickets
                 case "3" -> {
                     System.out.println(UPDATE_ACCOUNT);

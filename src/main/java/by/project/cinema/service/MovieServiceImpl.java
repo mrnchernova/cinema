@@ -6,9 +6,9 @@ import by.project.cinema.repository.MovieRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static by.project.cinema.controller.MovieController.dateFormat;
-import static by.project.cinema.util.Constants.movieService;
-import static by.project.cinema.util.Constants.sc;
+//import static by.project.cinema.controller.MovieController.dateFormat;
+import static by.project.cinema.util.Constants.*;
+import static by.project.cinema.util.Util.formatter;
 
 public class MovieServiceImpl implements MovieService {
     private MovieRepository movieRepository;
@@ -55,9 +55,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void movieInfo() {
         List<Movie> movies = movieRepository.getMovies();
+        System.out.printf("%-4s %-35s %-15s\n", ID, TITLE, DATE);
         for (Movie m : movies) {
-            System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().getTime()));
-//            System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), dateFormat.format(m.getDate().toLocalDate()));       // !!! date
+            System.out.format("%-4s %-35s %-15s\n", m.getId(), m.getTitle(), formatter.format(m.getDate()));
         }
     }
 }

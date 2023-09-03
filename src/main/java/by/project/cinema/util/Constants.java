@@ -1,20 +1,12 @@
 package by.project.cinema.util;
 
 
-import by.project.cinema.repository.MovieRepositoryImpl;
-import by.project.cinema.repository.TicketRepositoryImpl;
-import by.project.cinema.repository.UserRepositoryImpl;
-import by.project.cinema.service.*;
-
-import java.util.Scanner;
-
 public class Constants {
 
-    public static Scanner sc = new Scanner(System.in);
-    public static String step = "-1";
-    public static UserService userService = new UserServiceImpl(new UserRepositoryImpl());
-    public static MovieService movieService = new MovieServiceImpl(new MovieRepositoryImpl());
-    public static TicketService ticketService = new TicketServiceImpl(new TicketRepositoryImpl());
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
 
     public static final String DEFAULT = "default value";
     public static final String WELCOME = "Welcome, ";
@@ -26,7 +18,8 @@ public class Constants {
     public static final String ROLE = "role";
     public static final String SEAT = "seat";
     public static final String PRICE = "price";
-    public static final String MOVIE = "movie";
+    public static final String TITLE = "title";
+    public static final String DATE = "date";
 
     public static final String ENTER_USER_ID = "Enter user id: ";
     public static final String ENTER_USERNAME = "Enter username: ";
@@ -38,10 +31,14 @@ public class Constants {
     public static final String MOVIE_DATE_FORMAT = "xx.xx.xxxx xx:xx ";
     public static final String TICKET_RETURN_BY_ID = "Select id for return ticket ";
 
-    /** DB requests */
+    /**
+     * DB requests
+     */
     public static final String SMTH = "smth";
 
-    /** information messages */
+    /**
+     * information messages
+     */
     public static final String PASSWORD_RULE = "The password must consist of a capital letter, a lowercase letter, a number, and a symbol. Password length [6..20]. ";
     public static final String PASSWORD_NOT_VALID = "Password not correct. ";
     public static final String EMAIL_NOT_VALID = "Email not correct. ";
@@ -71,79 +68,73 @@ public class Constants {
     public static final String TICKET_RETURN_FOR_USER = "Return ticket for user";
 
 
-
-
-
-
-    public static final String MAIN_MENU = """
-            
+    public static final String MAIN_MENU = ANSI_YELLOW + """
+                        
             -- MAIN MENU --
             1. list of films
             2. registration
             3. sign in
             0. exit
-            """;
+            """ + ANSI_RESET;
 
-    public static final String USER_MENU = """
-            
+    public static final String USER_MENU = ANSI_YELLOW + """
+                        
             -- USER MENU --
             1. list of films
             2. your tickets            
             3. update account
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String UPDATE_ACCOUNT = """
-            
+    public static final String UPDATE_ACCOUNT = ANSI_YELLOW + """
+                        
             -- UPDATE ACCOUNT --
             1. change password
             2. change email         
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String USER_MOVIE_MENU = """
-            
+    public static final String USER_MOVIE_MENU = ANSI_YELLOW + """
+                        
             --MOVIE MENU--
             1. buy ticket
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String USER_TICKET_MENU = """
+    public static final String USER_TICKET_MENU = ANSI_YELLOW + """
 
             --TICKET MENU--
             1. return ticket
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String ADMIN_MENU = """
-            
+    public static final String ADMIN_MENU = ANSI_YELLOW + """
+                        
             -- ADMIN MENU --
             1. create user
             2. update user          
             3. delete user
-            4. get user by id
-            5. get all users
+            4. get all users
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String MANAGER_MENU = """
-            
+    public static final String MANAGER_MENU = ANSI_YELLOW + """
+                        
             -- MANAGER MENU --
             1. create film
             2. update film      
             3. delete film
             4. get all films
             0. back
-            """;
+            """ + ANSI_RESET;
 
-    public static final String MANAGER_MOVIE_MENU = """
-            
+    public static final String MANAGER_MOVIE_MENU = ANSI_YELLOW + """
+                        
             --MOVIE MENU--
             1. buy ticket for user
             2. return ticket for user
             0. back
-            """;
-
+            """ + ANSI_RESET;
 
 
 }

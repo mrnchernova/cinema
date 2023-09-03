@@ -4,6 +4,7 @@ import by.project.cinema.model.Role;
 import by.project.cinema.model.User;
 
 import static by.project.cinema.util.Constants.*;
+import static by.project.cinema.util.Util.*;
 
 public class AdminController {
 
@@ -83,18 +84,7 @@ public class AdminController {
                         System.out.println(USER_NOT_FOUND);
                     }
                 }                                                                                       //delete user
-                case "4" -> {
-                    System.out.println(ENTER_USER_ID);
-                    int id = sc.nextInt();
-                    sc.nextLine();
-                    if (userService.isExistUser(id)) {
-                        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
-                        System.out.println(userService.getUserById(id));
-                    } else {
-                        System.out.println(USER_NOT_FOUND);
-                    }
-                }                                                                                       //get user by id
-                case "5" -> userService.getUsers();                                                                     //get all users
+                case "4" -> userService.getUsers();                                                                     //get all users
                 case "0" -> MainController.mainMenu();
                 default -> System.out.println(SOMETHING_WRONG);
             }

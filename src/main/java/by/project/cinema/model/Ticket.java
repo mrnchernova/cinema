@@ -12,11 +12,7 @@ public class Ticket {
     private int personId; //Если место не куплено, тогда значение пользователя должно быть пустым
     private int seat;
     private double price;
-    private boolean inStock; //by default will be true
+    private boolean inStock;
     private int movieId;
-
-
-
-
 }
 
