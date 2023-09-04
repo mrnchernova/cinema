@@ -3,6 +3,7 @@ package by.project.cinema.controller;
 import by.project.cinema.model.Movie;
 import by.project.cinema.model.Ticket;
 import by.project.cinema.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -10,6 +11,7 @@ import java.time.format.DateTimeParseException;
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
+@Slf4j
 public class ManagerController {
     public static void managerMenu(User user) {
         step = DEFAULT;

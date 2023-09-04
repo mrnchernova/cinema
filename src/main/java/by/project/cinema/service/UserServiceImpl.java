@@ -2,6 +2,7 @@ package by.project.cinema.service;
 
 import by.project.cinema.model.User;
 import by.project.cinema.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.sc;
 import static by.project.cinema.util.Util.userService;
 
+@Slf4j
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
@@ -42,7 +44,11 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = new User(username, password, email);
-        userRepository.createUser(user);
+        if (userRepository.createUser(user)) {
+            log.info("Created user: " + username + " " + email);
+        } else {
+            log.error("User not created");
+        }
     }
 
     public boolean updateUser(User user) {
@@ -56,7 +62,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void getUsers() {
-//        return userRepository.getUsers();
         List<User> userList = userRepository.getUsers();
         System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
         for (User u : userList) {
@@ -99,4 +104,5 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
 }

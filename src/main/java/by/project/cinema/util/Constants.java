@@ -112,7 +112,7 @@ public class Constants {
                         
             -- ADMIN MENU --
             1. create user
-            2. update user          
+            2. update user         
             3. delete user
             4. get all users
             0. back
