@@ -6,7 +6,6 @@ import by.project.cinema.repository.MovieRepository;
 import java.util.List;
 import java.util.Optional;
 
-//import static by.project.cinema.controller.MovieController.dateFormat;
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.formatter;
 

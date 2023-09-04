@@ -1,10 +1,13 @@
 package by.project.cinema.util;
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Slf4j
 public final class ConnectionDB {
 
     private static final String URL_KEY = "db.url";
@@ -22,18 +25,20 @@ public final class ConnectionDB {
                     Properties.get(USERNAME_KEY),
                     Properties.get(PASSWORD_KEY));
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка при подключении к БД" + e.getMessage());
+            log.error("Error connecting to database");
+            throw new RuntimeException("Error connecting to database" + e.getMessage());
         }
     }
 
     private static void loadDriver() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch (
-                ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
+            log.error("Driver mysql can't be find");
             e.printStackTrace();
         }
     }
 
-    private ConnectionDB() {}
+    private ConnectionDB() {
+    }
 }

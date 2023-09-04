@@ -1,6 +1,5 @@
 package by.project.cinema.controller;
 
-import by.project.cinema.model.Movie;
 import by.project.cinema.model.User;
 
 import java.util.InputMismatchException;
@@ -20,6 +19,7 @@ public class MovieController {
         step = sc.nextLine();
         switch (step) {
             case "1" -> {
+
                 System.out.println(TICKET_BUY_FOR_USER);
                 userService.getUsers();
                 User selectedUser = checkForValidUserId();
@@ -37,21 +37,6 @@ public class MovieController {
             case "0" -> ManagerController.managerMenu(manager);
             default -> System.out.println(SOMETHING_WRONG);
         }
-    }
-
-    public static int selectMovie() {
-        System.out.println(ENTER_MOVIE_ID);
-       try{
-           int movieId = sc.nextInt();
-           sc.nextLine();
-           Movie m = movieService.getMovieById(movieId)
-                   .orElse(new Movie());
-           return movieId;
-       }catch (InputMismatchException e) {
-           sc.next();
-           selectMovie();
-       }
-       return 0;
     }
 
     public static User checkForValidUserId(){
@@ -76,7 +61,6 @@ public class MovieController {
         }
         return new User();
     }
-
 }
 
 

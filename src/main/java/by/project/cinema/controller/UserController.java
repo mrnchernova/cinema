@@ -1,10 +1,12 @@
 package by.project.cinema.controller;
 
 import by.project.cinema.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
+@Slf4j
 public class UserController {
 
     public static void userMenu(User user) {
@@ -14,10 +16,9 @@ public class UserController {
             step = sc.nextLine();
 
             switch (step) {
-                case "1" -> MovieController.movieMenuUser(user);        //list of films
-                case "2" -> {
-                    TicketController.returnTicket(user, null);
-                }      //your tickets
+                case "1" -> MovieController.movieMenuUser(user);        //order ticket
+                case "2" -> TicketController.returnTicket(user, null);
+                //your tickets
                 case "3" -> {
                     System.out.println(UPDATE_ACCOUNT);
                     step = sc.nextLine();
@@ -29,8 +30,10 @@ public class UserController {
                                 user.setPassword(newPassword);
                                 userService.updateUser(user);
                                 System.out.println(SUCCESSFUL);
+                                log.info("User changed password successfully");
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + PASSWORD_NOT_VALID + PASSWORD_RULE);
+                                log.error("User couldn't change password. Password not valid");
                             }
 
                         }
@@ -41,8 +44,10 @@ public class UserController {
                                 user.setEmail(newEmail);
                                 userService.updateUser(user);
                                 System.out.println(SUCCESSFUL);
+                                log.info("User changed email successfully");
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + EMAIL_NOT_VALID);
+                                log.error("User couldn't change email. Email not valid");
                             }
 
                         }
@@ -52,7 +57,6 @@ public class UserController {
                             UserController.userMenu(user);
                         }
                     }
-
                 }                                       //update account
                 case "0" -> MainController.mainMenu();
                 default -> System.out.println(SOMETHING_WRONG);

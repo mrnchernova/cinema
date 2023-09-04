@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
@@ -28,12 +29,12 @@ public class ManagerController {
 
                     System.out.println(ENTER_MOVIE_DATE + MOVIE_DATE_FORMAT);
                     String dateStr = sc.nextLine();
-
                     try {
                         LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
                         Movie movie = new Movie(title, date);
                         if (movieService.create(movie)) {
                             System.out.println("Movie successfully created");
+                            log.info("Movie successfully created. Title:" + title + ", date:" + dateStr);
                         } else {
                             System.out.println(SOMETHING_WRONG);
                         }
@@ -45,46 +46,54 @@ public class ManagerController {
                             ticket.setInStock(true);
                             ticket.setMovieId(movieService.getByTitle(title).getId());
                             ticketService.create(ticket);
+                            log.info("Created 10 tickets for movie: " + movie.getTitle());
                         }
                     } catch (DateTimeParseException e) {
                         System.out.println("Wrong date format. Movie can't be created");
+                        log.error("Wrong date format. Movie can't be created");
                     }
 
 
                 }                                                                                       //create film
                 case "2" -> {
-                    System.out.println("enter movie id for update");
-                    int id = sc.nextInt();
-                    sc.nextLine();
+                    System.out.println("Enter movie id for update");
+                    try {
+                        int id = sc.nextInt();
+                        sc.nextLine();
+                        if (movieService.isExistMovie(id)) {
+                            Movie movie = movieService.getMovieById(id).get();
 
-                    if (movieService.isExistMovie(id)) {
-                        Movie movie = movieService.getMovieById(id).get();
-
-                        System.out.println("new movie title. Previous title: " + movie.getTitle());
-                        String title = sc.nextLine();
-                        if (!title.isEmpty()) {
-                            movie.setTitle(title);
-                        }
-
-                        System.out.println("new movie date. " + MOVIE_DATE_FORMAT + " Previous date: " + formatter.format(movie.getDate()));
-                        String dateStr = sc.nextLine();
-
-                        if (!dateStr.isEmpty()) {
-                            try {
-                                LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
-                                movie.setDate(date);
-                            } catch (Exception e) {
-                                System.out.println("Wrong date format. Date can't be changed");
+                            System.out.println("new movie title. Previous title: " + movie.getTitle());
+                            String title = sc.nextLine();
+                            if (!title.isEmpty()) {
+                                movie.setTitle(title);
                             }
-                        }
 
-                        if (movieService.updateMovie(movie)) {
-                            System.out.println("movie updated");
+                            System.out.println("new movie date. " + MOVIE_DATE_FORMAT + " Previous date: " + formatter.format(movie.getDate()));
+                            String dateStr = sc.nextLine();
+
+                            if (!dateStr.isEmpty()) {
+                                try {
+                                    LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
+                                    movie.setDate(date);
+                                } catch (Exception e) {
+                                    System.out.println("Wrong date format. Date can't be changed");
+                                }
+                            }
+
+                            if (movieService.updateMovie(movie)) {
+                                System.out.println("movie updated");
+                                log.info("movie updated. New title:" + movie.getTitle() + ", new date:" + formatter.format(movie.getDate()));
+                            } else {
+                                System.out.println("movie not updated");
+                                log.error("movie not updated");
+                            }
                         } else {
-                            System.out.println("movie not updated");
+                            System.out.println("movie not found");
                         }
-                    } else {
-                        System.out.println("movie not found");
+                    } catch (InputMismatchException e) {
+                        System.out.println("Unknown movie id");
+                        sc.next();
                     }
                 }                                                                                       //update film
                 case "3" -> {
@@ -94,14 +103,19 @@ public class ManagerController {
                     if (movieService.isExistMovie(id)) {
                         if (movieService.delete(id)) {
                             System.out.println("movie deleted");
+                            log.info("movie deleted" + " id="+id);
                         }
                     } else {
                         System.out.println("movie not found");
+                        log.info("movie not found" + " id="+ id);
                     }
                 }                                                                                       //delete film
                 case "4" -> MovieController.movieMenuManager(user);                                                     //get all films
                 case "0" -> MainController.mainMenu();                                                                  //back
-                default -> System.out.println(SOMETHING_WRONG);
+
+                default -> {
+                    System.out.println(SOMETHING_WRONG);
+                }
             }
         }
     }

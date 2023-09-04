@@ -80,7 +80,7 @@ public class Constants {
     public static final String USER_MENU = ANSI_YELLOW + """
                         
             -- USER MENU --
-            1. list of films
+            1. order ticket
             2. your tickets            
             3. update account
             0. back
