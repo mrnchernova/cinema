@@ -14,12 +14,14 @@ public interface UserRepository {
     List<User> getUsers();
 
     User getUserById(int id);
+    
+    User getUserByUsername(String user);
 
     boolean isExistUser(int id);
 
     boolean isExistUserByUsername(String username);
 
-    User signIn(String username, String password);
+    boolean signIn(String username, String password);
 
 
 }

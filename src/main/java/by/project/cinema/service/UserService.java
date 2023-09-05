@@ -2,6 +2,10 @@ package by.project.cinema.service;
 
 import by.project.cinema.model.User;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 
 public interface UserService {
     void createUser();
@@ -14,12 +18,11 @@ public interface UserService {
 
     User getUserById(int id);
 
-
     boolean isExistUser(int id);
 
     boolean isExistUserByUsername(String username);
 
-    User signIn(String username, String password);
+    boolean signIn(String username, String password);
 
     boolean isPasswordValid(String password);
 

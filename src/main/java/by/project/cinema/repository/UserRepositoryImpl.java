@@ -53,7 +53,7 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }
@@ -132,13 +132,11 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Override
-    public User signIn(String enteredUsername, String enteredPassword) {
+    public User getUserByUsername(String userUsername) {
         User user = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=? AND password=?");
-            preparedStatement.setString(1, enteredUsername);
-            preparedStatement.setString(2, enteredPassword);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=?");
+            preparedStatement.setString(1, userUsername);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -155,4 +153,43 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return user;
     }
+
+    
+    
+    
+    
+    
+    
+    @Override
+    public boolean signIn(String enteredUsername, String enteredPassword) {
+//        User user = null;
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=? AND password=?");
+            preparedStatement.setString(1, enteredUsername);
+            preparedStatement.setString(2, enteredPassword);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+//                int id = resultSet.getInt("id");
+//                String username = resultSet.getString("username");
+//                String password = resultSet.getString("password");
+//                String email = resultSet.getString("email");
+//                Role role = Role.valueOf(resultSet.getString("role"));
+//                user = new User(id, username, password, email, role);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }

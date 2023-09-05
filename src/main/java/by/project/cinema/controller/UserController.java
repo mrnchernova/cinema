@@ -28,9 +28,10 @@ public class UserController {
                             String newPassword = sc.nextLine();
                             if (userService.isPasswordValid(newPassword)) {
                                 user.setPassword(newPassword);
-                                userService.updateUser(user);
-                                System.out.println(SUCCESSFUL);
-                                log.info("User changed password successfully");
+                               if (userService.updateUser(user)) {
+                                   System.out.println(SUCCESSFUL);
+                                   log.info("User changed password successfully");
+                               }
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + PASSWORD_NOT_VALID + PASSWORD_RULE);
                                 log.error("User couldn't change password. Password not valid");

@@ -2,8 +2,12 @@ package by.project.cinema.service;
 
 import by.project.cinema.model.User;
 import by.project.cinema.repository.UserRepository;
+import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,6 +40,29 @@ public class UserServiceImpl implements UserService {
             password = sc.nextLine();
         }
 
+        /**
+         * Encrypt password 
+         */
+        String reverseUsername = new StringBuilder(username).reverse().toString();
+        byte[] byteReverseUsername = reverseUsername.getBytes();
+        byte[] encryptedPassword = new byte[0]; //todo что ты такое?
+        try {
+            encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, byteReverseUsername);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("Error in encrypt password");
+            log.error("Error in encrypt password");
+            e.printStackTrace();
+        }
+        try {
+            password = new String(encryptedPassword, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Error in encoding UTF-8");
+            log.error("Error in encoding UTF-8");
+            e.printStackTrace();
+        }
+        /** Encrypt password */
+
+
         System.out.print(ENTER_EMAIL);
         String email = sc.nextLine();
         while ((!userService.isEmailValid(email)) || (email.isEmpty())) {
@@ -52,6 +79,27 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updateUser(User user) {
+        /**
+         * Encrypt password 
+         */
+        String reverseUsername = new StringBuilder(user.getUsername()).reverse().toString();
+        byte[] byteReverseUsername = reverseUsername.getBytes();
+        byte[] encryptedPassword = new byte[0];
+        try {
+            encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), byteReverseUsername);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.out.println("Error in encrypt password");
+            log.error("Error in encrypt password");
+            e.printStackTrace();
+        }
+        try {
+            user.setPassword(new String(encryptedPassword, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            System.out.println("Error in encoding UTF-8");
+            log.error("Error in encoding UTF-8");
+            e.printStackTrace();
+        }
+        /** Encrypt password */
         return userRepository.updateUser(user);
     }
 
@@ -63,9 +111,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void getUsers() {
         List<User> userList = userRepository.getUsers();
-        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, PASSWORD, EMAIL, ROLE);
+        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, EMAIL, ROLE);
         for (User u : userList) {
-            System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getPassword(), u.getEmail(), u.getRole());
+            System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getEmail(), u.getRole());
         }
     }
 
@@ -84,10 +132,47 @@ public class UserServiceImpl implements UserService {
         return userRepository.isExistUserByUsername(username);
     }
 
+
+    
+//    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Override
-    public User signIn(String username, String password) {
-        return userRepository.signIn(username, password);
+    public boolean signIn(String username, String notEncryptedPassword) {
+        
+        byte[] passwordInDB = userRepository.getUserByUsername(username).getPassword().getBytes();
+
+        //getSalt
+        String reverseUsername = new StringBuilder(username).reverse().toString();
+        byte[] salt = reverseUsername.getBytes();
+
+        if (PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt)) {
+            System.out.println("passwords equal");
+            return true;
+//            return userRepository.signIn(username, passwordInDB);
+        } else {
+            System.out.println("passwords not equal");
+            return false;
+        }
+    
+
+
+//        try {
+//            if (PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt)) {
+//                String password = null;
+//                try {
+//                    password = new String(passwordInDB, "UTF-8");
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//                return userRepository.signIn(username, password);
+//            } else System.out.println("passwords not equal");
+//
+//        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
     }
+
 
     @Override
     public boolean isPasswordValid(String password) {

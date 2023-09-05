@@ -3,6 +3,10 @@ package by.project.cinema.controller;
 import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
@@ -16,15 +20,21 @@ public class MainController {
             step = sc.nextLine();
             switch (step) {
                 case "1" -> movieService.movieInfo();
-
                 case "2" -> userService.createUser();
+
 
                 case "3" -> {
                     System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
                     System.out.print(ENTER_PASSWORD);
                     String password = sc.nextLine();
-                    User currentUser = userService.signIn(username, password);
+
+                    //boolean
+                    if (userService.signIn(username, password)) {
+                        System.out.println("ok");
+                    } else System.out.println("ne ok");
+                    
+ /*                    User currentUser = userService.signIn(username, password);
                     if (currentUser == null) {
                         System.out.println(NEEDS_REGISTRATION);
                         log.warn("Incorrect username or password entered");
@@ -38,7 +48,12 @@ public class MainController {
                             default -> System.out.println(UNKNOWN_ROLE);
                         }
                     }
+*/
+
+
                 }
+
+
                 case "0" -> {
                     sc.close();
                     System.exit(0);
