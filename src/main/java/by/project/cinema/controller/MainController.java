@@ -1,9 +1,7 @@
 package by.project.cinema.controller;
 
-import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -29,14 +27,18 @@ public class MainController {
                     System.out.print(ENTER_PASSWORD);
                     String password = sc.nextLine();
 
-                    //boolean
-                    if (userService.signIn(username, password)) {
-                        System.out.println("ok");
-                    } else System.out.println("ne ok");
-                    
+                    if (userService.isExistUserByUsername(username)) {
+                        if (userService.signIn(username, password)) {
+                            System.out.println("passwords match");
+                        } else {
+                            System.out.println("Passwords mismatch");
+                        }
+                    } else {
+                        System.out.println("User not found");
+                    }
  /*                    User currentUser = userService.signIn(username, password);
                     if (currentUser == null) {
-                        System.out.println(NEEDS_REGISTRATION);
+                        System.out.println("Incorrect username or password entered");
                         log.warn("Incorrect username or password entered");
                     } else {
                         System.out.println("\n" + WELCOME + username);

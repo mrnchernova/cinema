@@ -8,7 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 
 
 public interface UserService {
-    void createUser();
+    void createUser() ;
 
     boolean updateUser(User user);
 

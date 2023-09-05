@@ -3,13 +3,16 @@ package by.project.cinema.controller;
 import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
 @Slf4j
 public class UserController {
 
-    public static void userMenu(User user) {
+    public static void userMenu(User user)  {
         step = DEFAULT;
         while (!step.equals("0")) {
             System.out.println(USER_MENU);

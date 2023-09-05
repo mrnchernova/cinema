@@ -4,6 +4,8 @@ import by.project.cinema.model.Role;
 import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;

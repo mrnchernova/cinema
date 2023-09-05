@@ -6,6 +6,7 @@ import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -40,24 +41,12 @@ public class UserServiceImpl implements UserService {
             password = sc.nextLine();
         }
 
-        /**
-         * Encrypt password 
-         */
-        String reverseUsername = new StringBuilder(username).reverse().toString();
-        byte[] byteReverseUsername = reverseUsername.getBytes();
-        byte[] encryptedPassword = new byte[0]; //todo что ты такое?
+        /** Encrypt password */
+        byte[] salt = "secret".getBytes();
+        byte[] encryptedPassword  = PasswordEncrypt.getEncryptedPassword(password, salt);
         try {
-            encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, byteReverseUsername);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            System.out.println("Error in encrypt password");
-            log.error("Error in encrypt password");
-            e.printStackTrace();
-        }
-        try {
-            password = new String(encryptedPassword, "UTF-8");
+            password = new String(encryptedPassword, "windows-1251");
         } catch (UnsupportedEncodingException e) {
-            System.out.println("Error in encoding UTF-8");
-            log.error("Error in encoding UTF-8");
             e.printStackTrace();
         }
         /** Encrypt password */
@@ -82,24 +71,15 @@ public class UserServiceImpl implements UserService {
         /**
          * Encrypt password 
          */
-        String reverseUsername = new StringBuilder(user.getUsername()).reverse().toString();
-        byte[] byteReverseUsername = reverseUsername.getBytes();
-        byte[] encryptedPassword = new byte[0];
+        byte[] salt = "secret".getBytes();
+        byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), salt);
         try {
-            encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), byteReverseUsername);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            System.out.println("Error in encrypt password");
-            log.error("Error in encrypt password");
-            e.printStackTrace();
-        }
-        try {
-            user.setPassword(new String(encryptedPassword, "UTF-8"));
+            user.setPassword(new String(encryptedPassword, "windows-1251"));
         } catch (UnsupportedEncodingException e) {
-            System.out.println("Error in encoding UTF-8");
-            log.error("Error in encoding UTF-8");
             e.printStackTrace();
         }
         /** Encrypt password */
+
         return userRepository.updateUser(user);
     }
 
@@ -132,45 +112,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.isExistUserByUsername(username);
     }
 
-
-    
-//    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Override
     public boolean signIn(String username, String notEncryptedPassword) {
-        
-        byte[] passwordInDB = userRepository.getUserByUsername(username).getPassword().getBytes();
-
-        //getSalt
-        String reverseUsername = new StringBuilder(username).reverse().toString();
-        byte[] salt = reverseUsername.getBytes();
+        byte[] passwordInDB = new byte[0];
+        try {
+            passwordInDB = userRepository.getUserByUsername(username).getPassword().getBytes("windows-1251");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        byte[] salt = "secret".getBytes();
 
         if (PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt)) {
-            System.out.println("passwords equal");
             return true;
-//            return userRepository.signIn(username, passwordInDB);
         } else {
-            System.out.println("passwords not equal");
             return false;
         }
-    
-
-
-//        try {
-//            if (PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt)) {
-//                String password = null;
-//                try {
-//                    password = new String(passwordInDB, "UTF-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                return userRepository.signIn(username, password);
-//            } else System.out.println("passwords not equal");
-//
-//        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return false;
     }
 
 
