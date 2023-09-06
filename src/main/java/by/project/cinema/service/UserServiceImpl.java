@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,9 +43,10 @@ public class UserServiceImpl implements UserService {
         }
 
         /** Encrypt password */
-        byte[] salt = "secret".getBytes();
-        byte[] encryptedPassword  = PasswordEncrypt.getEncryptedPassword(password, salt);
+        byte[] salt = PasswordEncrypt.generateSalt(username);
+        byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, salt);
         try {
+            assert encryptedPassword != null;
             password = new String(encryptedPassword, "windows-1251");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -68,12 +70,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updateUser(User user) {
-        /**
-         * Encrypt password 
-         */
-        byte[] salt = "secret".getBytes();
+        /** Encrypt password */
+        byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
         byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), salt);
         try {
+            assert encryptedPassword != null;
             user.setPassword(new String(encryptedPassword, "windows-1251"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -103,6 +104,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> getUserByUsername(String username) {
+        return Optional.ofNullable(userRepository.getUserByUsername(username));
+    }
+
+    @Override
     public boolean isExistUser(int id) {
         return userRepository.isExistUser(id);
     }
@@ -114,19 +120,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean signIn(String username, String notEncryptedPassword) {
-        byte[] passwordInDB = new byte[0];
-        try {
-            passwordInDB = userRepository.getUserByUsername(username).getPassword().getBytes("windows-1251");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (!username.isEmpty()) {
+            if (userRepository.isExistUserByUsername(username)) {
+                byte[] passwordInDB = new byte[0];
+                try {
+                    passwordInDB = userRepository.getUserByUsername(username).getPassword().getBytes("windows-1251");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                byte[] salt = PasswordEncrypt.generateSalt(username);
+                return PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt);
+            }
         }
-        byte[] salt = "secret".getBytes();
-
-        if (PasswordEncrypt.authenticate(notEncryptedPassword, passwordInDB, salt)) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
 

@@ -42,8 +42,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getByTitle(String title) {
-        return movieRepository.getByTitle(title);
+    public Optional<Movie> getByTitle(String title) {
+        return Optional.ofNullable(movieRepository.getByTitle(title));
     }
 
     @Override

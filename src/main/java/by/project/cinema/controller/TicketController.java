@@ -14,11 +14,11 @@ import static by.project.cinema.util.Util.*;
 public class TicketController {
 
     public static void orderTicket(User user, User manager) {
-        movieService.movieInfo();                                                                                       //list of films
+        movieService.movieInfo();
 
         System.out.println(ENTER_MOVIE_ID);
         try {
-         int movieId = sc.nextInt();
+            int movieId = sc.nextInt();
             sc.nextLine();
 
             if (movieService.getMovieById(movieId).isEmpty()) {
@@ -26,12 +26,12 @@ public class TicketController {
             } else {
                 System.out.print("Available tickets: " + ticketService.countOfAvailableTickets(movieId));
                 if (ticketService.countOfAvailableTickets(movieId) != 0) {
-
                     System.out.println('\n' + USER_MOVIE_MENU);
                     step = sc.nextLine();
 
                     switch (step) {
                         case "1" -> {
+                            log.info("MENU: Buy Ticket");
                             boolean ticketReserved = false;
                             System.out.println(TICKET_SEAT);
                             List<Ticket> notReservedTickets = ticketService.listOfAvailableTickets(movieId);
@@ -55,7 +55,9 @@ public class TicketController {
                                                 System.out.println("movie: " + movieService.getMovieById(movieId).get().getTitle());
                                                 ticketReserved = true;
                                                 validCinemaSeat = true;
-                                                log.info("ticket ordered for user: " + user.getUsername() + " movie:" + movieService.getMovieById(movieId).get().getTitle() + " seat:" + cinemaSeat);
+                                                log.info("Ticket ordered for user: " + user.getUsername() + " " +
+                                                        "movie: \"" + movieService.getMovieById(movieId).get().getTitle() + "\" " +
+                                                        "seat:" + cinemaSeat);
                                             }
                                         }
                                     }
@@ -70,14 +72,14 @@ public class TicketController {
                                     sc.next();
                                 }
                             }
-                        }//buy ticket
+                        }
                         case "0" -> {
                             if (manager == null) {
                                 UserController.userMenu(user);
                             } else {
                                 ManagerController.managerMenu(manager);
                             }
-                        }                                                                                   //back
+                        }
                         default -> System.out.println(SOMETHING_WRONG);
                     }
                 } else {
@@ -107,6 +109,7 @@ public class TicketController {
 
             switch (step) {
                 case "1" -> {
+                    log.info("MENU: Return Ticket");
                     System.out.println(TICKET_RETURN_BY_ID);
                     boolean ticketReturned = false;
                     while (!ticketReturned) {
@@ -138,15 +141,12 @@ public class TicketController {
                     } else {
                         ManagerController.managerMenu(manager);
                     }
-                }                                                                                       //back
+                }
                 default -> System.out.println(SOMETHING_WRONG);
             }
-
-
         } else {
             System.out.println("User " + user.getUsername() + " didn't reserve tickets");
         }
     }
-
 }
 

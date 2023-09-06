@@ -17,7 +17,7 @@ public interface MovieService {
 
     Optional<Movie> getMovieById(int id);
 
-    Movie getByTitle(String title);
+    Optional<Movie> getByTitle(String title);
 
     boolean isExistMovie(int id);
 

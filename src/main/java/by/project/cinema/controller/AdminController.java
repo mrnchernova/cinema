@@ -4,8 +4,6 @@ import by.project.cinema.model.Role;
 import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;
@@ -15,20 +13,17 @@ import static by.project.cinema.util.Util.*;
 public class AdminController {
 
     public static void adminMenu() {
-
         while (!step.equals(0)) {
             System.out.println(ADMIN_MENU);
-            try {
-                step = sc.nextLine();
-            } catch (Exception e) {
-                sc.next();
-            }
-
+            step = sc.nextLine();
+            
             switch (step) {
                 case "1" -> {
-                    userService.createUser();                                                                   //create user
+                    log.info("MENU: Create User");
+                    userService.createUser();
                 }
                 case "2" -> {
+                    log.info("MENU: Update User");
                     System.out.println(ENTER_USER_ID);
                     try {
                         int id = sc.nextInt();
@@ -74,20 +69,21 @@ public class AdminController {
                             }
                             if (userService.updateUser(user)) {
                                 System.out.println(USER_UPDATED);
-                                log.info("Username updated successfully. New data:" + user.getUsername() + " " + user.getEmail() + " " + user.getRole());
+                                log.info("Username updated successfully. New data:" + user.getUsername() + " | " + user.getEmail() + " | " + user.getRole());
                             } else {
                                 System.out.println(NOT_SUCCESSFUL);
-                                log.error("Unsuccessful update user " + user.getUsername());
+                                log.error("Unsuccessful update user:" + user.getUsername());
                             }
                         } else {
-                            System.out.println("Unknown user id=" + id);
+                            System.out.println("Unknown user id:" + id);
                         }
                     } catch (InputMismatchException e) {
                         System.out.println("Unknown user id");
                         sc.nextLine();
                     }
-                }                                                                                       //update user
+                }
                 case "3" -> {
+                    log.info("MENU: Delete User");
                     System.out.println(ENTER_USER_ID);
                     try {
                         int id = sc.nextInt();
@@ -106,17 +102,14 @@ public class AdminController {
                         log.warn(USER_NOT_FOUND);
                         sc.nextLine();
                     }
-                }                                                                                       //delete user
+                }
 
                 case "4" -> {
-                    userService.getUsers();                                                                     //get all users
+                    log.info("MENU: List Of Users");
+                    userService.getUsers();
                 }
-                case "0" -> {
-                    MainController.mainMenu();
-                }
-                default -> {
-                    System.out.println(SOMETHING_WRONG);
-                }
+                case "0" -> MainController.mainMenu();
+                default -> System.out.println(SOMETHING_WRONG);
             }
         }
     }

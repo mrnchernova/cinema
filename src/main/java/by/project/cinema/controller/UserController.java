@@ -3,26 +3,29 @@ package by.project.cinema.controller;
 import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
 @Slf4j
 public class UserController {
 
-    public static void userMenu(User user)  {
+    public static void userMenu(User user) {
         step = DEFAULT;
         while (!step.equals("0")) {
             System.out.println(USER_MENU);
             step = sc.nextLine();
 
             switch (step) {
-                case "1" -> MovieController.movieMenuUser(user);        //order ticket
-                case "2" -> TicketController.returnTicket(user, null);
-                //your tickets
+                case "1" -> {
+                    log.info("MENU: Order Ticket");
+                    MovieController.movieMenuUser(user);
+                }
+                case "2" -> {
+                    log.info("MENU: User Ticket");
+                    TicketController.returnTicket(user, null);
+                }
                 case "3" -> {
+                    log.info("MENU: Update Account");
                     System.out.println(UPDATE_ACCOUNT);
                     step = sc.nextLine();
                     switch (step) {
@@ -31,10 +34,10 @@ public class UserController {
                             String newPassword = sc.nextLine();
                             if (userService.isPasswordValid(newPassword)) {
                                 user.setPassword(newPassword);
-                               if (userService.updateUser(user)) {
-                                   System.out.println(SUCCESSFUL);
-                                   log.info("User changed password successfully");
-                               }
+                                if (userService.updateUser(user)) {
+                                    System.out.println(SUCCESSFUL);
+                                    log.info("User changed password successfully");
+                                }
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + PASSWORD_NOT_VALID + PASSWORD_RULE);
                                 log.error("User couldn't change password. Password not valid");
@@ -61,12 +64,10 @@ public class UserController {
                             UserController.userMenu(user);
                         }
                     }
-                }                                       //update account
+                }
                 case "0" -> MainController.mainMenu();
                 default -> System.out.println(SOMETHING_WRONG);
             }
-
         }
     }
-
 }

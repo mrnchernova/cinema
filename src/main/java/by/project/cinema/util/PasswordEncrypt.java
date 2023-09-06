@@ -2,6 +2,7 @@ package by.project.cinema.util;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -33,6 +34,10 @@ public class PasswordEncrypt {
         return null; //todo wtf
     }
 
+    public static byte[] generateSalt(String username) {
+     String salt = new StringBuilder(username).reverse().toString();
+     return salt.getBytes();
+}
 //    public static byte[] generateSalt() throws NoSuchAlgorithmException {
 //        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 //        byte[] salt = new byte[8];

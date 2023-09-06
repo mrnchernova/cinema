@@ -1,9 +1,7 @@
 package by.project.cinema.controller;
 
+import by.project.cinema.model.User;
 import lombok.extern.slf4j.Slf4j;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
@@ -12,49 +10,44 @@ import static by.project.cinema.util.Util.*;
 public class MainController {
 
     public static void mainMenu() {
+        log.info("MENU: Main");
         step = DEFAULT;
         while (!step.equals("0")) {
             System.out.println('\n' + MAIN_MENU);
             step = sc.nextLine();
             switch (step) {
-                case "1" -> movieService.movieInfo();
-                case "2" -> userService.createUser();
-
+                case "1" -> {
+                    log.info("MENU: List Of Movies");
+                    movieService.movieInfo();
+                }
+                case "2" -> {
+                    log.info("MENU: Registration");
+                    userService.createUser();
+                }
 
                 case "3" -> {
+                    log.info("MENU: Sign In");
                     System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
                     System.out.print(ENTER_PASSWORD);
                     String password = sc.nextLine();
 
-                    if (userService.isExistUserByUsername(username)) {
-                        if (userService.signIn(username, password)) {
-                            System.out.println("passwords match");
-                        } else {
-                            System.out.println("Passwords mismatch");
-                        }
-                    } else {
-                        System.out.println("User not found");
-                    }
- /*                    User currentUser = userService.signIn(username, password);
-                    if (currentUser == null) {
-                        System.out.println("Incorrect username or password entered");
-                        log.warn("Incorrect username or password entered");
-                    } else {
+                    if (userService.signIn(username, password)) {
+                        User currentUser = userService.getUserByUsername(username).orElse(null);
                         System.out.println("\n" + WELCOME + username);
-                        log.info("User signed in. Username:" + username + ", email: " + currentUser.getEmail());
+                        assert currentUser != null;
+                        log.info("User signed in. Username:" + username + " | email:" + currentUser.getEmail());
                         switch (currentUser.getRole().toString()) {
                             case "ADMIN" -> AdminController.adminMenu();
                             case "MANAGER" -> ManagerController.managerMenu(currentUser);
                             case "USER" -> UserController.userMenu(currentUser);
                             default -> System.out.println(UNKNOWN_ROLE);
                         }
+                    } else {
+                        System.out.println("Incorrect username or password");
+                        log.warn("Incorrect username or password");
                     }
-*/
-
-
                 }
-
 
                 case "0" -> {
                     sc.close();

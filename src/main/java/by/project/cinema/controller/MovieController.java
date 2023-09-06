@@ -1,12 +1,14 @@
 package by.project.cinema.controller;
 
 import by.project.cinema.model.User;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
+@Slf4j
 public class MovieController {
 
     public static void movieMenuUser(User user) {
@@ -19,27 +21,28 @@ public class MovieController {
         step = sc.nextLine();
         switch (step) {
             case "1" -> {
-
+                log.info("MENU: Buy Ticket For User");
                 System.out.println(TICKET_BUY_FOR_USER);
                 userService.getUsers();
                 User selectedUser = checkForValidUserId();
                 TicketController.orderTicket(selectedUser, manager);
-            }                                                                                           //buy ticket for user
+            }                                                                                           
 
 
             case "2" -> {
+                log.info("MENU: Return Ticket For User");
                 System.out.println(TICKET_RETURN_FOR_USER);
                 userService.getUsers();
                 User selectedUser = checkForValidUserId();
                 TicketController.returnTicket(selectedUser, manager);
-            }                                                                                                           //return ticket for user
+            }                                                                                                           
 
             case "0" -> ManagerController.managerMenu(manager);
             default -> System.out.println(SOMETHING_WRONG);
         }
     }
 
-    public static User checkForValidUserId(){
+    public static User checkForValidUserId() {
         System.out.println("\nSelect user id");
         boolean validId = false;
         while (!validId) {

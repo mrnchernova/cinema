@@ -5,10 +5,11 @@ import by.project.cinema.model.User;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Optional;
 
 
 public interface UserService {
-    void createUser() ;
+    void createUser();
 
     boolean updateUser(User user);
 
@@ -17,6 +18,9 @@ public interface UserService {
     void getUsers();
 
     User getUserById(int id);
+
+//    User getUserByUsername(String username);
+    Optional<User> getUserByUsername(String username);
 
     boolean isExistUser(int id);
 
