@@ -23,7 +23,7 @@ public class ManagerController {
             step = sc.nextLine();
             switch (step) {
                 case "1" -> {
-                    log.info("MENU: Create Movie");
+                    log.info(MENU_CREATE_MOVIE);
                     String title = "";
                     while (title.isEmpty()) {
                         System.out.println(ENTER_MOVIE_TITLE);
@@ -31,7 +31,7 @@ public class ManagerController {
                     }
 
 
-                    System.out.println("Ticket costs:");
+                    System.out.println(TICKET_COSTS);
                     double price = 0;
                     boolean validPrice = false;
                     while (!validPrice) {
@@ -40,7 +40,7 @@ public class ManagerController {
                             sc.nextLine();
                             validPrice = true;
                         } catch (InputMismatchException e) {
-                            System.out.println("Enter valid price");
+                            System.out.println(ENTER_VALID_PRICE);
                             sc.nextLine();
                         }
                     }
@@ -51,8 +51,8 @@ public class ManagerController {
                         LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
                         Movie movie = new Movie(title, date);
                         if (movieService.create(movie)) {
-                            System.out.println("Movie successfully created");
-                            log.info("Movie successfully created. Title: \"" + title + "\" | date:" + dateStr);
+                            System.out.println(MOVIE_CREATED);
+                            log.info(MOVIE_CREATED_LOG + title + _DATE + dateStr);
                         } else {
                             System.out.println(SOMETHING_WRONG);
                         }
@@ -68,19 +68,19 @@ public class ManagerController {
                             ticket.setMovieId(currentMovie.getId());
                             ticketService.create(ticket);
                         }
-                        System.out.println("Created 10 tickets for movie: \"" + movie.getTitle() + "\" | price:" + price);
-                        log.info("Created 10 tickets for movie: \"" + movie.getTitle() + "\" | price:" + price);
+                        System.out.println(TICKET_CREATE + movie.getTitle() + _PRICE + price);
+                        log.info(TICKET_CREATE + movie.getTitle() + _PRICE + price);
 
                     } catch (DateTimeParseException e) {
-                        System.out.println("Wrong date format. Movie can't be created");
-                        log.error("Wrong date format. Movie can't be created");
+                        System.out.println(MOVIE_NOT_CREATED);
+                        log.error(MOVIE_NOT_CREATED);
                     }
 
 
                 }
                 case "2" -> {
-                    log.info("MENU: Update Movie");
-                    System.out.println("Enter movie id for update");
+                    log.info(MENU_UPDATE_MOVIE);
+                    System.out.println(MOVIE_ID_FOR_UPDATE);
                     try {
                         int id = sc.nextInt();
                         sc.nextLine();
@@ -92,41 +92,41 @@ public class ManagerController {
                             newDate(movie);
 
                             if (movieService.updateMovie(movie)) {
-                                System.out.println("Movie updated");
-                                log.info("Movie updated. New title: \"" + movie.getTitle() + "\" | new date:" + formatter.format(movie.getDate()));
+                                System.out.println(MOVIE_UPDATED);
+                                log.info(MOVIE_UPDATED + NEW_TITLE + movie.getTitle() + _NEW_DATE + formatter.format(movie.getDate()));
                             } else {
-                                System.out.println("Movie not updated");
-                                log.error("Movie not updated");
+                                System.out.println(MOVIE_NOT_UPDATED);
+                                log.error(MOVIE_NOT_UPDATED);
                             }
                         } else {
-                            System.out.println("Movie not found");
+                            System.out.println(MOVIE_NOT_FOUND);
                         }
                     } catch (InputMismatchException e) {
-                        System.out.println("Unknown movie id");
+                        System.out.println(MOVIE_ID_UNKNOWN);
                         sc.next();
                     }
                 }
                 case "3" -> {
-                    log.info("MENU: Delete Movie");
-                    System.out.println("Enter movie id for delete");
+                    log.info(MENU_DELETE_MOVIE);
+                    System.out.println(ENTER_MOVIE_ID);
                     int id = sc.nextInt();
                     sc.nextLine();
                     if (movieService.isExistMovie(id)) {
                         if (movieService.delete(id)) {
-                            System.out.println("Movie deleted");
-                            log.info("Movie deleted. id:" + id);
+                            System.out.println(MOVIE_DELETED);
+                            log.info(MOVIE_DELETED_ID + id);
                         }
                     } else {
-                        System.out.println("Movie not found");
-                        log.info("Movie not found. id:" + id);
+                        System.out.println(MOVIE_NOT_FOUND);
+                        log.info(MOVIE_NOT_FOUND_ID + id);
                     }
                 }
                 case "4" -> {
-                    log.info("MENU: List Of Movies");
+                    log.info(MENU_LIST_OF_MOVIES);
                     MovieController.movieMenuManager(user);
                 }
                 case "0" -> {
-                    log.info("Log out");
+                    log.info(LOG_OUT);
                     MainController.mainMenu();
                 }
                 default -> System.out.println(SOMETHING_WRONG);
@@ -136,7 +136,7 @@ public class ManagerController {
 
     private static void newPrice(Movie movie) {
         List<Ticket> tickets = ticketService.getTicketsByMovieId(movie.getId());
-        System.out.println("New ticket price. Previous price: " + tickets.get(0).getPrice());
+        System.out.println(TICKET_NEW_PRICE + tickets.get(0).getPrice());
         if (ticketService.countOfAvailableTickets(movie.getId()) == 10) {
 
             double price = tickets.get(0).getPrice();
@@ -148,10 +148,10 @@ public class ManagerController {
                         sc.nextLine();
                         validPrice = true;
                     }else {
-                        System.out.println("Price cannot be negative");    
+                        System.out.println(PRICE_NEGATIVE);
                     }
                 } catch (InputMismatchException e) {
-                    System.out.println("Enter valid price");
+                    System.out.println(ENTER_VALID_PRICE);
                     sc.nextLine();
                 }
             }
@@ -161,12 +161,12 @@ public class ManagerController {
                 ticketService.updateTicket(t);
             }
         } else {
-            System.out.println("You cannot change price. Some tickets was sold out");
+            System.out.println(PRICE_CANNOT_BE_CHANGED);
         }
     }
 
     private static void newTitle(Movie movie) {
-        System.out.println("New movie title. Previous title: \"" + movie.getTitle() + "\"");
+        System.out.println(MOVIE_NEW_TITLE + MOVIE_PREVIOUS_TITLE + movie.getTitle() + "");
         String title = sc.nextLine();
         if (!title.isEmpty()) {
             movie.setTitle(title);
@@ -174,14 +174,14 @@ public class ManagerController {
     }
 
     private static void newDate(Movie movie) {
-        System.out.println("Mew movie date. " + MOVIE_DATE_FORMAT + " Previous date: " + formatter.format(movie.getDate()));
+        System.out.println(MOVIE_NEW_DATE + MOVIE_DATE_FORMAT + MOVIE_PREVIOUS_DATE + formatter.format(movie.getDate()));
         String dateStr = sc.nextLine();
         if (!dateStr.isEmpty()) {
             try {
                 LocalDateTime date = LocalDateTime.parse(dateStr, formatter);
                 movie.setDate(date);
             } catch (Exception e) {
-                System.out.println("Wrong date format. Date can't be changed");
+                System.out.println(MOVIE_DATE_WRONG_FORMAT);
             }
         }
     }

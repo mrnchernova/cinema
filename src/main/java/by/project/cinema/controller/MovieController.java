@@ -21,7 +21,7 @@ public class MovieController {
         step = sc.nextLine();
         switch (step) {
             case "1" -> {
-                log.info("MENU: Buy Ticket For User");
+                log.info(MENU_BUY_TICKET_FOR_USER);
                 System.out.println(TICKET_BUY_FOR_USER);
                 userService.getUsers();
                 User selectedUser = checkForValidUserId();
@@ -30,7 +30,7 @@ public class MovieController {
 
 
             case "2" -> {
-                log.info("MENU: Return Ticket For User");
+                log.info(MENU_RETURN_TICKET_FOR_USER);
                 System.out.println(TICKET_RETURN_FOR_USER);
                 userService.getUsers();
                 User selectedUser = checkForValidUserId();
@@ -43,7 +43,7 @@ public class MovieController {
     }
 
     public static User checkForValidUserId() {
-        System.out.println("\nSelect user id");
+        System.out.println(ENTER_USER_ID);
         boolean validId = false;
         while (!validId) {
             try {
@@ -54,10 +54,10 @@ public class MovieController {
                     return userService.getUserById(userId);
                 } else {
                     validId = false;
-                    System.out.println("User not found. Try again");
+                    System.out.println(USER_NOT_FOUND_TRY_AGAIN);
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Enter user id ");
+                System.out.println(ENTER_USER_ID);
                 validId = false;
                 sc.next();
             }

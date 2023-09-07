@@ -1,6 +1,5 @@
 package by.project.cinema.util;
 
-
 public class Constants {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -25,11 +24,11 @@ public class Constants {
     public static final String ENTER_USERNAME = "Enter username: ";
     public static final String ENTER_PASSWORD = "Enter password: ";
     public static final String ENTER_EMAIL = "Enter email: ";
-    public static final String ENTER_MOVIE_ID = "Enter film id: ";
+    public static final String ENTER_MOVIE_ID = "Enter movie id: ";
     public static final String ENTER_MOVIE_TITLE = "Enter title: ";
     public static final String ENTER_MOVIE_DATE = "Enter date ";
-    public static final String MOVIE_DATE_FORMAT = "xx.xx.xxxx xx:xx ";
-    public static final String TICKET_RETURN_BY_ID = "Select id for return ticket ";
+    public static final String ENTER_ID_FOR_RETURN_TICKET = "Enter id for return ticket: ";
+    public static final String ENTER_VALID_PRICE = "Enter valid price";
 
     /**
      * DB requests
@@ -39,33 +38,121 @@ public class Constants {
     /**
      * information messages
      */
+
+    public static final String LOG_IN = "";
+    public static final String LOG_OUT = "Log out";
+    public static final String EXIT = "Process finished with exit code 0";
+
+
     public static final String PASSWORD_RULE = "The password must consist of a capital letter, a lowercase letter, a number, and a symbol. Password length [6..20]. ";
     public static final String PASSWORD_NOT_VALID = "Password not correct. ";
     public static final String EMAIL_NOT_VALID = "Email not correct. ";
 
     public static final String TRY_AGAIN = "Try again ";
-    public static final String NOT_SUCCESSFUL = "Not Successful. ";
-    public static final String SUCCESSFUL = "Successful. ";
+    public static final String NOT_SUCCESSFUL = "Not Successful ";
+    public static final String SUCCESSFUL = "Successful ";
     public static final String SOMETHING_WRONG = "Something goes wrong";
 
     public static final String USER_EXISTS = "Such user already exists. ";
     public static final String USER_NOT_FOUND = "User not found";
+    public static final String USER_NOT_FOUND_TRY_AGAIN = "User not found. Try again";
     public static final String USER_UPDATED = "User successfully updated";
     public static final String USER_DELETED = "User successfully deleted";
     public static final String USER_NEW_USERNAME_OR_SKIP = "Write new username or press Enter";
     public static final String USER_NEW_PASSWORD_OR_SKIP = "Write new password or press Enter";
     public static final String USER_NEW_EMAIL_OR_SKIP = "Write new email or press Enter";
     public static final String USER_NEW_ROLE = "Choose new role \n1 Admin \n2 User \n3 Manager";
+    public static final String USER_CHANGED_PASSWORD = "User changed password successfully";
+    public static final String USER_CHANGED_EMAIL = "User changed email successfully";
+    public static final String USER_NOT_CHANGED_PASSWORD = "User couldn't change password. Password not valid";
+    public static final String USER_NOT_CHANGED_EMAIL = "User couldn't change email. Email not valid";
+    public static final String _EMAIL = " | email:";
+    public static final String _USERNAME = " username:";
+    public static final String USER_LOGGED_IN = "User logged in \t";
+    public static final String USER_INCORRECT_USERNAME_OR_PASSWORD = "Incorrect username or password";
 
 
-    public static final String UNKNOWN_ROLE = "Undefined role";
-    public static final String NEEDS_REGISTRATION = "You need registered first";
+
+
+    public static final String _MOVIE = " | movie:";
+    public static final String _DATE = " | date:";
+    public static final String MOVIE_DATE_FORMAT = "xx.xx.xxxx xx:xx ";
+    public static final String MOVIE_DATE_WRONG_FORMAT = "Wrong date format. Date can't be changed";
+    public static final String MOVIE_NOT_CREATED = "Wrong date format. Movie can't be created";
+    public static final String MOVIE_ID_NOT_FOUND = "Movie id %d not found";
+    public static final String MOVIE_NOT_FOUND = "Movie not found";
+    public static final String MOVIE_NOT_FOUND_ID = "Movie not found. id:";
+    public static final String MOVIE_ID_UNKNOWN = "Unknown movie id";
+    public static final String MOVIE_CREATED = "Movie successfully created";
+    public static final String MOVIE_CREATED_LOG = "Movie successfully created: ";
+    public static final String MOVIE_ID_FOR_UPDATE = "Enter movie id for update";
+    public static final String MOVIE_UPDATED = "Movie updated\t";
+    public static final String MOVIE_NOT_UPDATED = "Movie not updated";
+    public static final String MOVIE_DELETED = "Movie deleted";
+    public static final String MOVIE_DELETED_ID = "Movie deleted. id:";
+    public static final String MOVIE_NEW_TITLE = "New movie title.\t";
+    public static final String MOVIE_NEW_DATE = "New movie date.\t";
+    public static final String MOVIE_PREVIOUS_TITLE = "Previous title: ";
+    public static final String MOVIE_PREVIOUS_DATE = "Previous date: ";
+
+
 
     public static final String TICKET_SEAT = "Choose seat ";
     public static final String TICKET_SOLD_OUT = "Not available tickets for this film";
-
     public static final String TICKET_BUY_FOR_USER = "Buy ticket for user";
     public static final String TICKET_RETURN_FOR_USER = "Return ticket for user";
+    public static final String TICKET_AVAILABLE = "Available tickets: ";
+    public static final String TICKET_ORDERED_FOR_USER = "Ticket ordered for user: %s \nseat: %d \nmovie: %s";
+    public static final String TICKET_ORDERED_FOR_USER_LOG = "Ticket ordered for user:";
+    public static final String TICKET_NOT_ORDERED = "Ticket not ordered";
+    public static final String TICKET_RETURNED = "Ticket returned";
+    public static final String TICKET_RETURNED_ID = "Ticket returned id:";
+    public static final String TICKET_UNKNOWN = "Unknown ticket";
+    public static final String TICKET_NOT_FOUND = "Ticket not found";
+    public static final String TICKET_NOT_FOUND_ID = "Ticket not found id:";
+    public static final String TICKET_NOT_ORDERED_BY_USER = "User %s didn't reserve tickets";
+    public static final String TICKET_COSTS = "Ticket costs:";
+    public static final String TICKET_NEW_PRICE = "New price for tickets. Previous price: ";
+    public static final String TICKET_CREATE = "Created 10 tickets for movie: ";
+    public static final String _PRICE = " | price:";
+
+
+
+    public static final String PRICE_NEGATIVE = "Price cannot be negative";
+    public static final String PRICE_CANNOT_BE_CHANGED = "You cannot change price. Some tickets was sold out";
+
+
+
+
+    public static final String NEW_TITLE = "New title:";
+    public static final String _NEW_DATE = " | new date:";
+
+
+    public static final String MENU_BUY_TICKET = "MENU: Buy Ticket";
+    public static final String MENU_RETURN_TICKET = "MENU: Return Ticket";
+    public static final String MENU_CREATE_MOVIE = "MENU: Create Movie";
+    public static final String MENU_UPDATE_MOVIE = "MENU: Update Movie";
+    public static final String MENU_LIST_OF_MOVIES = "MENU: List Of Movies";
+    public static final String MENU_DELETE_MOVIE = "MENU: Delete Movie";
+    public static final String MENU_BUY_TICKET_FOR_USER = "MENU: Buy Ticket For User";
+    public static final String MENU_RETURN_TICKET_FOR_USER = "MENU: Return Ticket For User";
+    public static final String MENU_ORDER_TICKET = "MENU: Order Ticket";
+    public static final String MENU_USER_TICKET = "MENU: User Ticket";
+    public static final String MENU_UPDATE_ACCOUNT = "MENU: Update Account";
+    public static final String MENU_MAIN = "MENU: Main";
+    public static final String MENU_REGISTRATION = "MENU: Registration";
+    public static final String MENU_LOG_IN = "MENU: Log In";
+
+
+    public static final String _SEAT = " | seat:";
+    public static final String SEAT_UNKNOWN = "Unknown seat";
+    public static final String SEAT_WRONG = "Wrong seat number";
+
+
+    public static final String UNKNOWN_ID = "Unknown id";
+    public static final String UNKNOWN_ROLE = "Undefined role";
+    public static final String NEEDS_REGISTRATION = "You need registered first";
+
 
 
     public static final String MAIN_MENU = ANSI_YELLOW + """

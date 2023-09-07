@@ -22,16 +22,16 @@ public class TicketController {
             sc.nextLine();
 
             if (movieService.getMovieById(movieId).isEmpty()) {
-                System.out.format("Movie id %d not found", movieId);
+                System.out.format(MOVIE_ID_NOT_FOUND, movieId);
             } else {
-                System.out.print("Available tickets: " + ticketService.countOfAvailableTickets(movieId));
+                System.out.print(TICKET_AVAILABLE + ticketService.countOfAvailableTickets(movieId));
                 if (ticketService.countOfAvailableTickets(movieId) != 0) {
                     System.out.println('\n' + USER_MOVIE_MENU);
                     step = sc.nextLine();
 
                     switch (step) {
                         case "1" -> {
-                            log.info("MENU: Buy Ticket");
+                            log.info(MENU_BUY_TICKET);
                             boolean ticketReserved = false;
                             System.out.println(TICKET_SEAT);
                             List<Ticket> notReservedTickets = ticketService.listOfAvailableTickets(movieId);
@@ -50,24 +50,24 @@ public class TicketController {
                                     for (Ticket t : notReservedTickets) {
                                         if (cinemaSeat == t.getSeat()) {
                                             if (ticketService.reserveTicket(user, cinemaSeat, movieId)) {
-                                                System.out.println("ticket ordered for user: " + user.getUsername());
-                                                System.out.println("seat: " + cinemaSeat);
-                                                System.out.println("movie: " + movieService.getMovieById(movieId).get().getTitle());
+                                                System.out.printf(TICKET_ORDERED_FOR_USER, user.getUsername(),
+                                                        cinemaSeat, movieService.getMovieById(movieId).get().getTitle());
                                                 ticketReserved = true;
                                                 validCinemaSeat = true;
-                                                log.info("Ticket ordered for user: " + user.getUsername() + " " +
-                                                        "movie: \"" + movieService.getMovieById(movieId).get().getTitle() + "\" " +
-                                                        "seat:" + cinemaSeat);
+                                                log.info(TICKET_ORDERED_FOR_USER_LOG + user.getUsername() +
+                                                        _MOVIE + movieService.getMovieById(movieId).get().getTitle() +
+                                                        _SEAT + cinemaSeat);
+
                                             }
                                         }
                                     }
                                     if (!ticketReserved) {
-                                        System.out.println("Unknown seat");
-                                        log.error("Ticket not ordered");
+                                        System.out.println(SEAT_UNKNOWN);
+                                        log.error(TICKET_NOT_ORDERED);
                                         validCinemaSeat = false;
                                     }
                                 } catch (InputMismatchException e) {
-                                    System.out.println("Wrong seat number");
+                                    System.out.println(SEAT_WRONG);
                                     validCinemaSeat = false;
                                     sc.next();
                                 }
@@ -89,7 +89,7 @@ public class TicketController {
 
             }
         } catch (InputMismatchException e) {
-            System.out.println("Unknown id");
+            System.out.println(UNKNOWN_ID);
             sc.nextLine();
         }
     }
@@ -109,8 +109,8 @@ public class TicketController {
 
             switch (step) {
                 case "1" -> {
-                    log.info("MENU: Return Ticket");
-                    System.out.println(TICKET_RETURN_BY_ID);
+                    log.info(MENU_RETURN_TICKET);
+                    System.out.println(ENTER_ID_FOR_RETURN_TICKET);
                     boolean ticketReturned = false;
                     while (!ticketReturned) {
                         try {
@@ -119,17 +119,17 @@ public class TicketController {
                             for (Ticket ti : tickets) {
                                 if (ti.getId() == ticketId) {
                                     ticketService.returnTicket(ticketId);
-                                    System.out.println("Ticket returned");
-                                    log.info("Ticket returned" + " id:" + ticketId);
+                                    System.out.println(TICKET_RETURNED);
+                                    log.info(TICKET_RETURNED_ID + ticketId);
                                     ticketReturned = true;
                                 }
                             }
                             if (!ticketReturned) {
-                                System.out.println("Ticket not found");
-                                log.error("Ticket not found" + " id:" + ticketId);
+                                System.out.println(TICKET_NOT_FOUND);
+                                log.error(TICKET_NOT_FOUND_ID + ticketId);
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("Unknown ticket");
+                            System.out.println(TICKET_UNKNOWN);
                             sc.next();
                         }
                     }
@@ -145,7 +145,7 @@ public class TicketController {
                 default -> System.out.println(SOMETHING_WRONG);
             }
         } else {
-            System.out.println("User " + user.getUsername() + " didn't reserve tickets");
+            System.out.printf(TICKET_NOT_ORDERED_BY_USER, user.getUsername());
         }
     }
 }

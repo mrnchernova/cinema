@@ -10,23 +10,23 @@ import static by.project.cinema.util.Util.*;
 public class MainController {
 
     public static void mainMenu() {
-        log.info("MENU: Main");
+        log.info(MENU_MAIN);
         step = DEFAULT;
         while (!step.equals("0")) {
             System.out.println('\n' + MAIN_MENU);
             step = sc.nextLine();
             switch (step) {
                 case "1" -> {
-                    log.info("MENU: List Of Movies");
+                    log.info(MENU_LIST_OF_MOVIES);
                     movieService.getMovies();
                 }
                 case "2" -> {
-                    log.info("MENU: Registration");
+                    log.info(MENU_REGISTRATION);
                     userService.createUser();
                 }
 
                 case "3" -> {
-                    log.info("MENU: Log In");
+                    log.info(MENU_LOG_IN);
                     System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
                     System.out.print(ENTER_PASSWORD);
@@ -36,7 +36,7 @@ public class MainController {
                         User currentUser = userService.getUserByUsername(username).orElse(null);
                         System.out.println("\n" + WELCOME + username);
                         assert currentUser != null;
-                        log.info("User signed in. Username:" + username + " | email:" + currentUser.getEmail());
+                        log.info(USER_LOGGED_IN + _USERNAME + username + _EMAIL + currentUser.getEmail());
                         switch (currentUser.getRole().toString()) {
                             case "ADMIN" -> AdminController.adminMenu();
                             case "MANAGER" -> ManagerController.managerMenu(currentUser);
@@ -44,12 +44,13 @@ public class MainController {
                             default -> System.out.println(UNKNOWN_ROLE);
                         }
                     } else {
-                        System.out.println("Incorrect username or password");
-                        log.warn("Incorrect username or password");
+                        System.out.println(USER_INCORRECT_USERNAME_OR_PASSWORD);
+                        log.warn(USER_INCORRECT_USERNAME_OR_PASSWORD);
                     }
                 }
 
                 case "0" -> {
+                    log.info(EXIT);
                     sc.close();
                     System.exit(0);
                 }

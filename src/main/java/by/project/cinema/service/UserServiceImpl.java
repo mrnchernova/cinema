@@ -6,9 +6,6 @@ import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -41,18 +38,7 @@ public class UserServiceImpl implements UserService {
             System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
             password = sc.nextLine();
         }
-
-        /** Encrypt password */
-        byte[] salt = PasswordEncrypt.generateSalt(username);
-        byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, salt);
-        try {
-            assert encryptedPassword != null;
-            password = new String(encryptedPassword, "windows-1251");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        /** Encrypt password */
-
+        String encryptedPassword = PasswordEncrypt.EncryptPassword(username, password);
 
         System.out.print(ENTER_EMAIL);
         String email = sc.nextLine();
@@ -61,7 +47,7 @@ public class UserServiceImpl implements UserService {
             email = sc.nextLine();
         }
 
-        User user = new User(username, password, email);
+        User user = new User(username, encryptedPassword, email);
         if (userRepository.createUser(user)) {
             System.out.println("User created");
             log.info("Created user: " + username + " | " + email);

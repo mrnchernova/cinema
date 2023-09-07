@@ -5,7 +5,6 @@ import by.project.cinema.model.User;
 import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
 import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;
@@ -18,7 +17,7 @@ public class AdminController {
         while (!step.equals(0)) {
             System.out.println(ADMIN_MENU);
             step = sc.nextLine();
-            
+
             switch (step) {
                 case "1" -> {
                     log.info("MENU: Create User");
@@ -44,7 +43,6 @@ public class AdminController {
                                 System.out.println(NOT_SUCCESSFUL);
                                 log.error("Unsuccessful update user:" + user.getUsername());
                             }
-                            
                         } else {
                             System.out.println("Unknown user id:" + id);
                         }
@@ -62,7 +60,7 @@ public class AdminController {
                         if (userService.isExistUser(id)) {
                             if (userService.delete(id)) {
                                 System.out.println(USER_DELETED);
-                                log.info("User id=" + id + " was successfully deleted");
+                                log.info("User id=" + id + " successfully deleted");
                             }
                         } else {
                             System.out.println(USER_NOT_FOUND);
@@ -116,18 +114,9 @@ public class AdminController {
                 System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
                 password = sc.nextLine();
             }
-            byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
-            byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, salt);
-            try {
-                user.setPassword(new String(encryptedPassword, "windows-1251"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            user.setPassword(PasswordEncrypt.EncryptPassword(user.getUsername(), password));
         }
     }
-    
-    
-
 }
 
 

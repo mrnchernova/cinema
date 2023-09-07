@@ -4,8 +4,6 @@ import by.project.cinema.model.User;
 import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.UnsupportedEncodingException;
-
 import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.*;
 
@@ -20,15 +18,15 @@ public class UserController {
 
             switch (step) {
                 case "1" -> {
-                    log.info("MENU: Order Ticket");
+                    log.info(MENU_ORDER_TICKET);
                     MovieController.movieMenuUser(user);
                 }
                 case "2" -> {
-                    log.info("MENU: User Ticket");
+                    log.info(MENU_USER_TICKET);
                     TicketController.returnTicket(user, null);
                 }
                 case "3" -> {
-                    log.info("MENU: Update Account");
+                    log.info(MENU_UPDATE_ACCOUNT);
                     System.out.println(UPDATE_ACCOUNT);
                     step = sc.nextLine();
                     switch (step) {
@@ -36,14 +34,14 @@ public class UserController {
                             System.out.println(ENTER_PASSWORD);
                             String newPassword = sc.nextLine();
                             if (userService.isPasswordValid(newPassword)) {
-                                EncryptPassword(user, newPassword);
+                                user.setPassword(PasswordEncrypt.EncryptPassword(user.getUsername(), newPassword));
                                 if (userService.updateUser(user)) {
-                                    System.out.println(SUCCESSFUL);
-                                    log.info("User changed password successfully");
+                                    System.out.println(USER_CHANGED_PASSWORD);
+                                    log.info(USER_CHANGED_PASSWORD);
                                 }
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + PASSWORD_NOT_VALID + PASSWORD_RULE);
-                                log.error("User couldn't change password. Password not valid");
+                                log.error(USER_NOT_CHANGED_PASSWORD);
                             }
 
                         }
@@ -54,10 +52,10 @@ public class UserController {
                                 user.setEmail(newEmail);
                                 userService.updateUser(user);
                                 System.out.println(SUCCESSFUL);
-                                log.info("User changed email successfully");
+                                log.info(USER_CHANGED_EMAIL);
                             } else {
                                 System.out.println(NOT_SUCCESSFUL + EMAIL_NOT_VALID);
-                                log.error("User couldn't change email. Email not valid");
+                                log.error(USER_NOT_CHANGED_EMAIL);
                             }
 
                         }
@@ -69,7 +67,7 @@ public class UserController {
                     }
                 }
                 case "0" -> {
-                    log.info("Log out");
+                    log.info(LOG_OUT);
                     MainController.mainMenu();
                 }
                 default -> System.out.println(SOMETHING_WRONG);
@@ -77,13 +75,5 @@ public class UserController {
         }
     }
 
-    private static void EncryptPassword(User user, String newPassword) {
-        byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
-        byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(newPassword, salt);
-        try {
-            user.setPassword(new String(encryptedPassword, "windows-1251"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
+
 }
