@@ -33,13 +33,11 @@ public class Constants {
     /**
      * DB requests
      */
-    public static final String SMTH = "smth";
 
     /**
      * information messages
      */
 
-    public static final String LOG_IN = "";
     public static final String LOG_OUT = "Log out";
     public static final String EXIT = "Process finished with exit code 0";
 
@@ -58,7 +56,6 @@ public class Constants {
     public static final String USER_NOT_FOUND_TRY_AGAIN = "User not found. Try again";
     public static final String USER_UPDATED = "User successfully updated";
     public static final String USER_DELETED = "User successfully deleted";
-    public static final String USER_NEW_USERNAME_OR_SKIP = "Write new username or press Enter";
     public static final String USER_NEW_PASSWORD_OR_SKIP = "Write new password or press Enter";
     public static final String USER_NEW_EMAIL_OR_SKIP = "Write new email or press Enter";
     public static final String USER_NEW_ROLE = "Choose new role \n1 Admin \n2 User \n3 Manager";
@@ -151,8 +148,6 @@ public class Constants {
 
     public static final String UNKNOWN_ID = "Unknown id";
     public static final String UNKNOWN_ROLE = "Undefined role";
-    public static final String NEEDS_REGISTRATION = "You need registered first";
-
 
 
     public static final String MAIN_MENU = ANSI_YELLOW + """
