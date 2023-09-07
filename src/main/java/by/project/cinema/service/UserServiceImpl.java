@@ -63,24 +63,15 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(username, password, email);
         if (userRepository.createUser(user)) {
-            log.info("Created user: " + username + " " + email);
+            System.out.println("User created");
+            log.info("Created user: " + username + " | " + email);
         } else {
+            System.out.println("User not created");
             log.error("User not created");
         }
     }
 
     public boolean updateUser(User user) {
-        /** Encrypt password */
-        byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
-        byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), salt);
-        try {
-            assert encryptedPassword != null;
-            user.setPassword(new String(encryptedPassword, "windows-1251"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        /** Encrypt password */
-
         return userRepository.updateUser(user);
     }
 
@@ -92,9 +83,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void getUsers() {
         List<User> userList = userRepository.getUsers();
-        System.out.format("\n%-4s %-15s %-15s %-15s %-10s", ID, USERNAME, EMAIL, ROLE);
+        System.out.format("\n%-4s %-15s %-15s %-10s", ID, USERNAME, EMAIL, ROLE);
         for (User u : userList) {
-            System.out.format("\n%-4s %-15s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getEmail(), u.getRole());
+            System.out.format("\n%-4s %-15s %-15s %-10s", u.getId(), u.getUsername(), u.getEmail(), u.getRole());
         }
     }
 

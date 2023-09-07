@@ -48,7 +48,7 @@ public class MovieRepositoryImpl implements MovieRepository {
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return false;
     }

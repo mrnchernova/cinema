@@ -19,7 +19,6 @@ public interface UserService {
 
     User getUserById(int id);
 
-//    User getUserByUsername(String username);
     Optional<User> getUserByUsername(String username);
 
     boolean isExistUser(int id);

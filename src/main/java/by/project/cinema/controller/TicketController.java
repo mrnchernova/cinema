@@ -14,7 +14,7 @@ import static by.project.cinema.util.Util.*;
 public class TicketController {
 
     public static void orderTicket(User user, User manager) {
-        movieService.movieInfo();
+        movieService.getMovies();
 
         System.out.println(ENTER_MOVIE_ID);
         try {

@@ -22,6 +22,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public boolean updateTicket(Ticket ticket) {
+        return ticketRepository.updateTicket(ticket);
+    }
+
+    @Override
     public List<Ticket> getTickets() {
         return ticketRepository.getTickets();
     }

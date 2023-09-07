@@ -52,9 +52,9 @@ public class Constants {
     public static final String USER_NOT_FOUND = "User not found";
     public static final String USER_UPDATED = "User successfully updated";
     public static final String USER_DELETED = "User successfully deleted";
-    public static final String USER_NEW_USERNAME = "Write new username or press Enter";
-    public static final String USER_NEW_PASSWORD = "Write new password or press Enter";
-    public static final String USER_NEW_EMAIL = "Write new email or press Enter";
+    public static final String USER_NEW_USERNAME_OR_SKIP = "Write new username or press Enter";
+    public static final String USER_NEW_PASSWORD_OR_SKIP = "Write new password or press Enter";
+    public static final String USER_NEW_EMAIL_OR_SKIP = "Write new email or press Enter";
     public static final String USER_NEW_ROLE = "Choose new role \n1 Admin \n2 User \n3 Manager";
 
 
@@ -73,7 +73,7 @@ public class Constants {
             -- MAIN MENU --
             1. list of films
             2. registration
-            3. sign in
+            3. log in
             0. exit
             """ + ANSI_RESET;
 
@@ -83,7 +83,7 @@ public class Constants {
             1. order ticket
             2. your tickets            
             3. update account
-            0. back
+            0. log out
             """ + ANSI_RESET;
 
     public static final String UPDATE_ACCOUNT = ANSI_YELLOW + """
@@ -115,7 +115,7 @@ public class Constants {
             2. update user         
             3. delete user
             4. get all users
-            0. back
+            0. log out
             """ + ANSI_RESET;
 
     public static final String MANAGER_MENU = ANSI_YELLOW + """
@@ -125,7 +125,7 @@ public class Constants {
             2. update film      
             3. delete film
             4. get all films
-            0. back
+            0. log out
             """ + ANSI_RESET;
 
     public static final String MANAGER_MOVIE_MENU = ANSI_YELLOW + """
@@ -135,6 +135,4 @@ public class Constants {
             2. return ticket for user
             0. back
             """ + ANSI_RESET;
-
-
 }

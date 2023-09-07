@@ -32,11 +32,6 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getMovies() {
-        return movieRepository.getMovies();
-    }
-
-    @Override
     public Optional<Movie> getMovieById(int id) {
         return Optional.ofNullable(movieRepository.getMovieById(id));
     }
@@ -52,7 +47,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void movieInfo() {
+    public void getMovies() {
         List<Movie> movies = movieRepository.getMovies();
         System.out.printf("%-4s %-35s %-15s\n", ID, TITLE, DATE);
         for (Movie m : movies) {

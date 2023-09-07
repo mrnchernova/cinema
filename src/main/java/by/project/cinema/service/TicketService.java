@@ -8,6 +8,8 @@ import java.util.List;
 public interface TicketService {
 
     boolean create(Ticket ticket);
+    
+    boolean updateTicket(Ticket ticket);
 
     List<Ticket> getTickets();
 

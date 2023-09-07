@@ -9,6 +9,8 @@ public interface TicketRepository {
 
     boolean create(Ticket ticket);
 
+    boolean updateTicket(Ticket ticket);
+
     List<Ticket> getTickets();
 
     List<Ticket> getTicketsByMovieId(int movieId);

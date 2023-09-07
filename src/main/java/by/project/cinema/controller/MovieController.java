@@ -16,7 +16,7 @@ public class MovieController {
     }
 
     public static void movieMenuManager(User manager) {
-        movieService.movieInfo();
+        movieService.getMovies();
         System.out.println(MANAGER_MOVIE_MENU);
         step = sc.nextLine();
         switch (step) {

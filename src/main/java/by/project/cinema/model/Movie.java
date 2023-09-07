@@ -21,8 +21,8 @@ public class Movie {
         this.date = date;
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(System.out.format("%-4s %-35s %-15s\n", id, title, formatter.format(date)));
-    }
+//    @Override
+//    public String toString() {
+//        return String.valueOf(System.out.format("%-4s %-35s %-15s\n+++", id, title, formatter.format(date)));
+//    }
 }

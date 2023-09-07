@@ -26,6 +26,20 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
+    public boolean updateTicket(Ticket ticket) {
+        try (Connection connection = ConnectionDB.open()) {
+            PreparedStatement statement = connection.prepareStatement("UPDATE ticket SET price = ? WHERE movie_id = ?");
+            statement.setDouble(1, ticket.getPrice());
+            statement.setInt(2, ticket.getMovieId());
+            statement.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public List<Ticket> getTickets() {
         List<Ticket> ticketList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {

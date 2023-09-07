@@ -2,8 +2,10 @@ package by.project.cinema.controller;
 
 import by.project.cinema.model.Role;
 import by.project.cinema.model.User;
+import by.project.cinema.util.PasswordEncrypt;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.UnsupportedEncodingException;
 import java.util.InputMismatchException;
 
 import static by.project.cinema.util.Constants.*;
@@ -31,42 +33,10 @@ public class AdminController {
                         if (userService.isExistUser(id)) {
                             User user = userService.getUserById(id);
 
-                            System.out.println(USER_NEW_USERNAME);
-                            String username = sc.nextLine();
-                            if (!username.isEmpty()) {
-                                while (userService.isExistUserByUsername(username)) {
-                                    System.out.println(USER_EXISTS + TRY_AGAIN);
-                                    username = sc.nextLine();
-                                }
-                                user.setUsername(username);
-                            }
+                            newPassword(user);
+                            newEmail(user);
+                            newRole(user);
 
-                            System.out.println(USER_NEW_PASSWORD);
-                            String password = sc.nextLine();
-                            if (!password.isEmpty()) {
-                                while (!userService.isPasswordValid(password)) {
-                                    System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
-                                    password = sc.nextLine();
-                                }
-                                user.setPassword(password);
-                            }
-
-                            System.out.println(USER_NEW_EMAIL);
-                            String email = sc.nextLine();
-                            if (!email.isEmpty()) {
-                                while (!userService.isEmailValid(email)) {
-                                    System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
-                                    email = sc.nextLine();
-                                }
-                                user.setEmail(email);
-                            }
-
-                            System.out.println(USER_NEW_ROLE);
-                            int roleId = sc.nextInt();
-                            sc.nextLine();
-                            if (roleId == 1 || roleId == 2 || roleId == 3) {
-                                user.setRole(Role.getByOrdinal(--roleId));
-                            }
                             if (userService.updateUser(user)) {
                                 System.out.println(USER_UPDATED);
                                 log.info("Username updated successfully. New data:" + user.getUsername() + " | " + user.getEmail() + " | " + user.getRole());
@@ -74,6 +44,7 @@ public class AdminController {
                                 System.out.println(NOT_SUCCESSFUL);
                                 log.error("Unsuccessful update user:" + user.getUsername());
                             }
+                            
                         } else {
                             System.out.println("Unknown user id:" + id);
                         }
@@ -103,16 +74,59 @@ public class AdminController {
                         sc.nextLine();
                     }
                 }
-
                 case "4" -> {
                     log.info("MENU: List Of Users");
                     userService.getUsers();
                 }
-                case "0" -> MainController.mainMenu();
+                case "0" -> {
+                    log.info("Log out");
+                    MainController.mainMenu();
+                }
                 default -> System.out.println(SOMETHING_WRONG);
             }
         }
     }
+
+    private static void newRole(User user) {
+        System.out.println(USER_NEW_ROLE);
+        int roleId = sc.nextInt();
+        sc.nextLine();
+        if (roleId == 1 || roleId == 2 || roleId == 3) {
+            user.setRole(Role.getByOrdinal(--roleId));
+        }
+    }
+
+    private static void newEmail(User user) {
+        System.out.println(USER_NEW_EMAIL_OR_SKIP);
+        String email = sc.nextLine();
+        if (!email.isEmpty()) {
+            while (!userService.isEmailValid(email)) {
+                System.out.println(EMAIL_NOT_VALID + TRY_AGAIN);
+                email = sc.nextLine();
+            }
+            user.setEmail(email);
+        }
+    }
+
+    private static void newPassword(User user) {
+        System.out.println(USER_NEW_PASSWORD_OR_SKIP);
+        String password = sc.nextLine();
+        if (!password.isEmpty()) {
+            while (!userService.isPasswordValid(password)) {
+                System.out.println(PASSWORD_NOT_VALID + PASSWORD_RULE + TRY_AGAIN);
+                password = sc.nextLine();
+            }
+            byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
+            byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(password, salt);
+            try {
+                user.setPassword(new String(encryptedPassword, "windows-1251"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
 
 }
 

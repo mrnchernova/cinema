@@ -19,7 +19,6 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setString(3, user.getEmail());
             statement.setString(4, Role.USER.toString());
             statement.execute();
-            System.out.println("database successfully updated");
             return true;
         } catch (SQLException e) {
             return false;
@@ -100,7 +99,6 @@ public class UserRepositoryImpl implements UserRepository {
                         resultSet.getString("password"),
                         resultSet.getString("email"),
                         Role.valueOf(resultSet.getString("role")));
-
                 userList.add(u);
             }
         } catch (SQLException e) {
@@ -117,7 +115,6 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setInt(1, userId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
@@ -139,7 +136,6 @@ public class UserRepositoryImpl implements UserRepository {
             preparedStatement.setString(1, userUsername);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
@@ -153,30 +149,17 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return user;
     }
-
-    
-    
-    
-    
-    
+ 
     
     @Override
     public boolean signIn(String enteredUsername, String enteredPassword) {
-//        User user = null;
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=? AND password=?");
             preparedStatement.setString(1, enteredUsername);
             preparedStatement.setString(2, enteredPassword);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String username = resultSet.getString("username");
-//                String password = resultSet.getString("password");
-//                String email = resultSet.getString("email");
-//                Role role = Role.valueOf(resultSet.getString("role"));
-//                user = new User(id, username, password, email, role);
                 return true;
             }
         } catch (SQLException e) {
@@ -184,12 +167,4 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return false;
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }

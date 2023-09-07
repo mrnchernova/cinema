@@ -18,7 +18,7 @@ public class MainController {
             switch (step) {
                 case "1" -> {
                     log.info("MENU: List Of Movies");
-                    movieService.movieInfo();
+                    movieService.getMovies();
                 }
                 case "2" -> {
                     log.info("MENU: Registration");
@@ -26,7 +26,7 @@ public class MainController {
                 }
 
                 case "3" -> {
-                    log.info("MENU: Sign In");
+                    log.info("MENU: Log In");
                     System.out.print(ENTER_USERNAME);
                     String username = sc.nextLine();
                     System.out.print(ENTER_PASSWORD);

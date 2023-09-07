@@ -13,13 +13,11 @@ public interface MovieService {
 
     boolean delete(int id);
 
-    List<Movie> getMovies();
-
     Optional<Movie> getMovieById(int id);
 
     Optional<Movie> getByTitle(String title);
 
     boolean isExistMovie(int id);
 
-    void movieInfo();
+    void getMovies();
 }

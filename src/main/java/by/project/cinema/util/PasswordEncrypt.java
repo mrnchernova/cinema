@@ -2,6 +2,7 @@ package by.project.cinema.util;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -24,20 +25,21 @@ public class PasswordEncrypt {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        try {
-            if (f != null) {
+        if (f != null) {
+            try {
                 return f.generateSecret(spec).getEncoded();
+            } catch (InvalidKeySpecException e) {
+                e.printStackTrace();
             }
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
         }
-        return null; //todo wtf
+        return null;
     }
 
     public static byte[] generateSalt(String username) {
-     String salt = new StringBuilder(username).reverse().toString();
-     return salt.getBytes();
-}
+        String salt = new StringBuilder(username).reverse().toString();
+        return salt.getBytes();
+    }
+
 //    public static byte[] generateSalt() throws NoSuchAlgorithmException {
 //        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 //        byte[] salt = new byte[8];
@@ -45,3 +47,17 @@ public class PasswordEncrypt {
 //        return salt;
 //    }
 }
+
+
+/*todo
+   public static void setEncryptedPassword(User user) {
+             byte[] salt = PasswordEncrypt.generateSalt(user.getUsername());
+            byte[] encryptedPassword = PasswordEncrypt.getEncryptedPassword(user.getPassword(), salt);
+            try {
+                assert encryptedPassword != null;
+                user.setPassword(new String(encryptedPassword, "windows-1251"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+    }
+*/
