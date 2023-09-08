@@ -8,17 +8,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.project.cinema.util.Constants.*;
+
 public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public boolean create(Movie movie) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO movie (title, date) VALUES (?, ?)");
+            PreparedStatement statement = connection.prepareStatement(INSERT_INTO_MOVIE_TITLE_DATE);
             statement.setString(1, movie.getTitle());
             statement.setTimestamp(2, java.sql.Timestamp.valueOf(movie.getDate()));
             statement.execute();
-
-
             return true;
         } catch (SQLException e) {
             return false;
@@ -28,7 +28,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public boolean updateMovie(Movie movie) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE movie SET title = ?, date = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement(UPDATE_MOVIE_SET_TITLE_DATE_BY_ID);
             statement.setString(1, movie.getTitle());
             statement.setTimestamp(2, java.sql.Timestamp.valueOf(movie.getDate()));
             statement.setInt(3, movie.getId());
@@ -43,7 +43,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public boolean delete(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM movie WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_MOVIE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             return true;
@@ -58,7 +58,7 @@ public class MovieRepositoryImpl implements MovieRepository {
         List<Movie> movieList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM movie");
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_MOVIE);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
@@ -77,7 +77,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     public Movie getMovieById(int movieId) {
         Movie movie = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM movie WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_MOVIE_BY_ID);
             preparedStatement.setInt(1, movieId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -98,7 +98,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     public Movie getByTitle(String movieTitle) {
         Movie movie = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM movie WHERE title=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_MOVIE_BY_TITLE);
             preparedStatement.setString(1, movieTitle);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -118,7 +118,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public boolean isExistMovie(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM movie WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_MOVIE_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

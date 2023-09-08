@@ -17,7 +17,7 @@ import static by.project.cinema.util.Util.userService;
 
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -49,11 +49,11 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(username, encryptedPassword, email);
         if (userRepository.createUser(user)) {
-            System.out.println("User created");
-            log.info("Created user: " + username + " | " + email);
+            System.out.println(USER_CREATED);
+            log.info(USER_CREATED_LOG + username + " | " + email);
         } else {
-            System.out.println("User not created");
-            log.error("User not created");
+            System.out.println(USER_NOT_CREATED);
+            log.error(USER_NOT_CREATED);
         }
     }
 

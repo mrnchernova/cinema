@@ -9,12 +9,11 @@ import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
 
-    private TicketRepository ticketRepository;
+    private final TicketRepository ticketRepository;
 
     public TicketServiceImpl(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
-
 
     @Override
     public boolean create(Ticket ticket) {
@@ -51,13 +50,12 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.returnTicket(id);
     }
 
-
     @Override
     public int countOfAvailableTickets(int movieId) {
         List<Ticket> tickets = ticketRepository.getTicketsByMovieId(movieId);
         int count = 0;
-        for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).isInStock()) {
+        for (Ticket ticket : tickets) {
+            if (ticket.isInStock()) {
                 count++;
             }
         }
@@ -68,9 +66,9 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> listOfAvailableTickets(int movieId) {
         List<Ticket> tickets = ticketRepository.getTicketsByMovieId(movieId);
         List<Ticket> notReservedTickets = new ArrayList<>();
-        for (int i = 0; i < tickets.size(); i++) {
-            if (tickets.get(i).isInStock()) {
-                notReservedTickets.add(tickets.get(i));
+        for (Ticket ticket : tickets) {
+            if (ticket.isInStock()) {
+                notReservedTickets.add(ticket);
             }
         }
         return notReservedTickets;

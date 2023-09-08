@@ -30,7 +30,6 @@ public class ManagerController {
                         title = sc.nextLine();
                     }
 
-
                     System.out.println(TICKET_COSTS);
                     double price = 0;
                     boolean validPrice = false;
@@ -57,7 +56,6 @@ public class ManagerController {
                             System.out.println(SOMETHING_WRONG);
                         }
 
-
                         Movie currentMovie = movieService.getByTitle(title).orElse(null);
                         assert currentMovie != null;
                         for (int i = 1; i <= 10; i++) {                                                                     // if movie is created, 10 empty tickets are entered into DB
@@ -75,9 +73,8 @@ public class ManagerController {
                         System.out.println(MOVIE_NOT_CREATED);
                         log.error(MOVIE_NOT_CREATED);
                     }
-
-
                 }
+
                 case "2" -> {
                     log.info(MENU_UPDATE_MOVIE);
                     System.out.println(MOVIE_ID_FOR_UPDATE);
@@ -103,7 +100,7 @@ public class ManagerController {
                         }
                     } catch (InputMismatchException e) {
                         System.out.println(MOVIE_ID_UNKNOWN);
-                        sc.next();
+                        sc.nextLine();
                     }
                 }
                 case "3" -> {

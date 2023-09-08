@@ -28,7 +28,6 @@ public class MovieController {
                 TicketController.orderTicket(selectedUser, manager);
             }                                                                                           
 
-
             case "2" -> {
                 log.info(MENU_RETURN_TICKET_FOR_USER);
                 System.out.println(TICKET_RETURN_FOR_USER);

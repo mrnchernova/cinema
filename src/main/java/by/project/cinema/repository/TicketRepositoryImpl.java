@@ -8,12 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.project.cinema.util.Constants.*;
+
 public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public boolean create(Ticket ticket) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO ticket (seat,price,in_stock,movie_id) VALUES (?,?,?,?)");
+                    INSERT_INTO_TICKET_SEAT_PRICE_INSTOCK_MOVIEID);
             statement.setInt(1, ticket.getSeat());
             statement.setDouble(2, ticket.getPrice());
             statement.setBoolean(3, ticket.isInStock());
@@ -28,7 +30,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public boolean updateTicket(Ticket ticket) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement statement = connection.prepareStatement("UPDATE ticket SET price = ? WHERE movie_id = ?");
+            PreparedStatement statement = connection.prepareStatement(UPDATE_TICKET_SET_PRICE_BY_MOVIEID);
             statement.setDouble(1, ticket.getPrice());
             statement.setInt(2, ticket.getMovieId());
             statement.execute();
@@ -44,7 +46,7 @@ public class TicketRepositoryImpl implements TicketRepository {
         List<Ticket> ticketList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM ticket");
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_TICKET);
             while (resultSet.next()) {
                 Ticket t = new Ticket(
                         resultSet.getInt("id"),
@@ -66,7 +68,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     public List<Ticket> getTicketsByMovieId(int movieId) {
         List<Ticket> ticketList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ticket WHERE movie_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_TICKET_BY_MOVIEID);
             preparedStatement.setInt(1, movieId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -92,7 +94,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     public List<Ticket> getTicketsByUserId(int userId) {
         List<Ticket> ticketList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ticket WHERE person_id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_TICKET_BY_PERSONID);
             preparedStatement.setInt(1, userId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -118,7 +120,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     public boolean reserveTicket(User user, int seat, int movieId) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE ticket SET person_id=?, in_stock=? WHERE seat = ? AND movie_id=?");
+                    UPDATE_TICKET_SET_PERSONID_INSTOCK_BY_SEAT_AND_MOVIEID);
             statement.setInt(1, user.getId());
             statement.setBoolean(2, false);
             statement.setInt(3, seat);
@@ -135,7 +137,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     public boolean returnTicket(int id) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE ticket SET person_id=null, in_stock=? WHERE id = ?");
+                    UPDATE_TICKET_SET_PERSONID_NULL_INSTOCK_BY_ID);
             statement.setBoolean(1, true);
             statement.setInt(2, id);
             statement.execute();
@@ -149,7 +151,7 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public boolean isExistTicket(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ticket WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_TICKET_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

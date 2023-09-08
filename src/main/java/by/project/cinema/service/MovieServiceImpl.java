@@ -10,7 +10,7 @@ import static by.project.cinema.util.Constants.*;
 import static by.project.cinema.util.Util.formatter;
 
 public class MovieServiceImpl implements MovieService {
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
 
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;

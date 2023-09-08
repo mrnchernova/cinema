@@ -8,12 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.project.cinema.util.Constants.*;
+
 public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean createUser(User user) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO person (username, password, email, role) VALUES (?, ?, ?, ?)");
+                    INSERT_INTO_PERSON_USERNAME_PASSWORD_EMAIL_ROLE);
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
@@ -29,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean updateUser(User user) {
         try (Connection connection = ConnectionDB.open()) {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE person SET username = ?, password = ?, email = ?, role = ? WHERE id = ?");
+                    UPDATE_PERSON_SET_USERNAME_PASSWORD_EMAIL_ROLE);
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getEmail());
@@ -47,7 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean delete(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM person WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PERSON);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             return true;
@@ -59,7 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     public boolean isExistUser(int id) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_PERSON_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -74,7 +76,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean isExistUserByUsername(String username) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_PERSON_BY_USERNAME);
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -91,7 +93,7 @@ public class UserRepositoryImpl implements UserRepository {
         List<User> userList = new ArrayList<>();
         try (Connection connection = ConnectionDB.open()) {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM person");
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FROM_PERSON);
             while (resultSet.next()) {
                 User u = new User(
                         resultSet.getInt("id"),
@@ -111,7 +113,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUserById(int userId) {
         User user = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE id=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_PERSON_BY_ID);
             preparedStatement.setInt(1, userId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -132,7 +134,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User getUserByUsername(String userUsername) {
         User user = null;
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_PERSON_BY_USERNAME);
             preparedStatement.setString(1, userUsername);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -154,7 +156,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean signIn(String enteredUsername, String enteredPassword) {
         try (Connection connection = ConnectionDB.open()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM person WHERE username=? AND password=?");
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FROM_PERSON_BY_USERNAME_AND_PASSWORD);
             preparedStatement.setString(1, enteredUsername);
             preparedStatement.setString(2, enteredPassword);
 
