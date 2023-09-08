@@ -14,7 +14,7 @@ public interface UserRepository {
     List<User> getUsers();
 
     User getUserById(int id);
-    
+
     User getUserByUsername(String user);
 
     boolean isExistUser(int id);

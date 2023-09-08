@@ -2,9 +2,6 @@ package by.project.cinema.service;
 
 import by.project.cinema.model.User;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Optional;
 
 

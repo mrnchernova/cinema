@@ -8,7 +8,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
-
 public class PasswordEncrypt {
 
     public static boolean authenticate(String InputPassword, byte[] encryptedPassword, byte[] salt) {
@@ -49,7 +48,6 @@ public class PasswordEncrypt {
         }
         return null;
     }
-
 }
 
 

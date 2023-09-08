@@ -112,7 +112,6 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-
     @Override
     public boolean isPasswordValid(String password) {
         String emailRegex = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`~@#$%^&*(){}<>+=_-]).{6,20}";
@@ -128,5 +127,4 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
 }

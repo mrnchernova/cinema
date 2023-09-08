@@ -151,8 +151,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return user;
     }
- 
-    
+
     @Override
     public boolean signIn(String enteredUsername, String enteredPassword) {
         try (Connection connection = ConnectionDB.open()) {

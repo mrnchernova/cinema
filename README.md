@@ -1,3 +1,3 @@
 Cinema console project
 
-![](C:/Users/user/Desktop/schema_cinema.png)
+![](src/main/resources/schema_cinema.png)

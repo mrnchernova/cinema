@@ -7,12 +7,11 @@ public final class Properties {
 
     public static final java.util.Properties PROPERTIES = new java.util.Properties();
 
-
     static {
         loadProperties();
     }
 
-    public static String get(String key){
+    public static String get(String key) {
         return PROPERTIES.getProperty(key);
     }
 
@@ -25,6 +24,5 @@ public final class Properties {
     }
 
     private Properties() {
-
     }
 }

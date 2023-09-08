@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static by.project.cinema.util.Util.formatter;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,9 +18,4 @@ public class Movie {
         this.title = title;
         this.date = date;
     }
-
-//    @Override
-//    public String toString() {
-//        return String.valueOf(System.out.format("%-4s %-35s %-15s\n+++", id, title, formatter.format(date)));
-//    }
 }

@@ -11,8 +11,6 @@ public interface TicketService {
     
     boolean updateTicket(Ticket ticket);
 
-    List<Ticket> getTickets();
-
     List<Ticket> getTicketsByMovieId(int movieId);
 
     List<Ticket> getTicketsByUserId(int userId);
@@ -24,7 +22,4 @@ public interface TicketService {
     int countOfAvailableTickets(int movieId);
 
     List<Ticket> listOfAvailableTickets(int movieId);
-
-    boolean isExistTicket(int id);
-
 }

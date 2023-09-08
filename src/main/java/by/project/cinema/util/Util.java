@@ -18,5 +18,4 @@ public class Util {
     public static UserService userService = new UserServiceImpl(new UserRepositoryImpl());
     public static MovieService movieService = new MovieServiceImpl(new MovieRepositoryImpl());
     public static TicketService ticketService = new TicketServiceImpl(new TicketRepositoryImpl());
-
 }

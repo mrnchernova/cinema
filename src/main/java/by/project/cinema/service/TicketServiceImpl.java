@@ -26,11 +26,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> getTickets() {
-        return ticketRepository.getTickets();
-    }
-
-    @Override
     public List<Ticket> getTicketsByMovieId(int movieId) {
         return ticketRepository.getTicketsByMovieId(movieId);
     }
@@ -72,10 +67,5 @@ public class TicketServiceImpl implements TicketService {
             }
         }
         return notReservedTickets;
-    }
-
-    @Override
-    public boolean isExistTicket(int id) {
-        return ticketRepository.isExistTicket(id);
     }
 }
